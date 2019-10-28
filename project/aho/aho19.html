@@ -1,0 +1,571 @@
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<title>あほげー</title>
+	<style type="text/css">
+		body{margin:0;background-color:white;overflow:hidden;}
+	</style>
+</head><body>
+	<div style="position:absolute;margin:5px;width:320px;top:0px;left:0px;background-color:white;font-size:18px;">第19回あほげー 投稿作品<br>お題：ダイエット</div>
+	<div style="position:absolute;margin:5px;width:320px;bottom:0px;left:0px;background-color:white;font-size:12px;">
+		ダイエット食品を食べてスリムになりましょう<br>
+		下部にあるスライドバーを動かしてデブを移動できます<br>
+		デブがダイエット食品と衝突すると食べてしまいます<br>
+		黄丸がバナナ、赤丸がりんご、灰丸がこんにゃくです<br>
+		ダイエット食品でも食べると太ってしまいますが、<br>
+		同じ種類のダイエット食品を食べ続けるとやせます<br>
+		続けることが大事なんだね<br>
+		<input type="checkbox" id="debugMode">チートモード(体重操作)</input><br>
+	</div>
+	<div style="position:absolute;margin:5px;bottom:0px;right:0px;background-color:white;text-align:right;">
+		<a href="http://ahoge.info/index.php">あほげー</a><br>
+		<a href="http://totetero.com/">totetero.com</a><br>
+	</div>
+	<canvas id='world' width="320" height="320" style="position:absolute;top:50%;left:50%;margin:-160px -160px;"></canvas>
+	
+	<script type="text/javascript">
+(function(global){
+	"use strict";
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+
+	// コントローラ
+	global.ctrl = (function(){
+		var ctrl = {};
+		ctrl.mx = 0;
+		ctrl.my = 0;
+		ctrl.mdn = false;
+		ctrl.mmv = false;
+
+		var mx0 = ctrl.mx;
+		var my0 = ctrl.my;
+		var isTouch = ('ontouchstart' in window);
+
+		var mdnEvent = function(e){
+			var rect = e.target.getBoundingClientRect();
+			ctrl.mx = (isTouch ? e.changedTouches[0].clientX : e.clientX) - rect.left;
+			ctrl.my = (isTouch ? e.changedTouches[0].clientY : e.clientY) - rect.top;
+			ctrl.mdn = true;
+			ctrl.mmv = false;
+			mx0 = ctrl.mx;
+			my0 = ctrl.my;
+			e.preventDefault();
+		};
+
+		var mmvEvent = function(e){
+			var rect = e.target.getBoundingClientRect();
+			ctrl.mx = (isTouch ? e.changedTouches[0].clientX : e.clientX) - rect.left;
+			ctrl.my = (isTouch ? e.changedTouches[0].clientY : e.clientY) - rect.top;
+			if(ctrl.mdn && !ctrl.mmv){
+				var x = ctrl.mx - mx0;
+				var y = ctrl.my - my0;
+				ctrl.mmv = x * x + y * y > 5 * 5;
+			}
+			e.preventDefault();
+		};
+
+		var mupEvent = function(e){
+			var rect = e.target.getBoundingClientRect();
+			ctrl.mx = (isTouch ? e.changedTouches[0].clientX : e.clientX) - rect.left;
+			ctrl.my = (isTouch ? e.changedTouches[0].clientY : e.clientY) - rect.top;
+			ctrl.mdn = false;
+			e.preventDefault();
+		};
+
+		ctrl.init = function(element){
+			if(isTouch){
+				element.addEventListener("touchstart", mdnEvent, true);
+				element.addEventListener("touchmove", mmvEvent, true);
+				element.addEventListener("touchend", mupEvent, true);
+			}else{
+				element.addEventListener("mousedown", mdnEvent, true);
+				element.addEventListener("mousemove", mmvEvent, true);
+				element.addEventListener("mouseup", mupEvent, true);
+				element.addEventListener("mouseout", mupEvent, true);
+			}
+		};
+
+		return ctrl;
+	})();
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+})(this);
+	</script>
+	<script type="text/javascript">
+(function(global){
+	"use strict";
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+
+	// 単位行列の作成
+	function matCreateIdentity(mat){
+		mat._11 = 1;
+		mat._12 = 0;
+		mat._13 = 0;
+		mat._14 = 0;
+		mat._21 = 0;
+		mat._22 = 1;
+		mat._23 = 0;
+		mat._24 = 0;
+		mat._31 = 0;
+		mat._32 = 0;
+		mat._33 = 1;
+		mat._34 = 0;
+		mat._41 = 0;
+		mat._42 = 0;
+		mat._43 = 0;
+		mat._44 = 1;
+	}
+
+	// 行列の複製
+	function matCopy(dst, src){
+		dst._11 = src._11;
+		dst._12 = src._12;
+		dst._13 = src._13;
+		dst._14 = src._14;
+		dst._21 = src._21;
+		dst._22 = src._22;
+		dst._23 = src._23;
+		dst._24 = src._24;
+		dst._31 = src._31;
+		dst._32 = src._32;
+		dst._33 = src._33;
+		dst._34 = src._34;
+		dst._41 = src._41;
+		dst._42 = src._42;
+		dst._43 = src._43;
+		dst._44 = src._44;
+	}
+
+	// 平行移動行列の掛け合わせ
+	function matMulTranslate(mat, x, y, z){
+		mat._41 += mat._11 * x + mat._21 * y + mat._31 * z;
+		mat._42 += mat._12 * x + mat._22 * y + mat._32 * z;
+		mat._43 += mat._13 * x + mat._23 * y + mat._33 * z;
+		mat._44 += mat._14 * x + mat._24 * y + mat._34 * z;
+	}
+
+	// y軸中心回転行列の掛け合わせ
+	function matMulRotY(mat, rot){
+		var c = Math.cos(rot)
+		var s = Math.sin(rot)
+		var temp11 = c * mat._11 - s * mat._31;
+		var temp12 = c * mat._12 - s * mat._32;
+		var temp13 = c * mat._13 - s * mat._33;
+		var temp14 = c * mat._14 - s * mat._34;
+		var temp31 = s * mat._11 + c * mat._31;
+		var temp32 = s * mat._12 + c * mat._32;
+		var temp33 = s * mat._13 + c * mat._33;
+		var temp34 = s * mat._14 + c * mat._34;
+		mat._11 = temp11;
+		mat._12 = temp12;
+		mat._13 = temp13;
+		mat._14 = temp14;
+		mat._31 = temp31;
+		mat._32 = temp32;
+		mat._33 = temp33;
+		mat._34 = temp34;
+	}
+
+	// 射影行列作成
+	function matCreateFrustum(mat, width, height){
+		var w = 1;
+		var h = 1;
+		if(width > height){w = width / height;}
+		if(width < height){h = height / width;}
+		var z_near = 1;
+		var z_far = 100;
+
+		mat._11 = 2 * z_near / w;
+		mat._12 = 0;
+		mat._13 = 0;
+		mat._14 = 0;
+
+		mat._21 = 0;
+		mat._22 = 2 * z_near / h;
+		mat._23 = 0;
+		mat._24 = 0;
+
+		mat._31 = 0;
+		mat._32 = 0;
+		mat._33 = z_far / (z_far - z_near);
+		mat._34 = 1;
+
+		mat._41 = 0;
+		mat._42 = 0;
+		mat._43 = z_near * z_far / (z_near - z_far);
+		mat._44 = 0;
+
+		// 領域変換 [-1 ～ 1, -1 ～ 1] -> [0 ～ w, 0 ～ h]
+		mat._11 *= width / 2;
+		mat._22 *= height / 2;
+		mat._31 += width / 2;
+		mat._32 += height / 2;
+
+		// ほげほげ(うまい説明文が思い浮かばない)
+		return width < height ? width : height;
+	}
+
+	// 座標と行列を掛け合わせてアファイン変換を行う
+	function transCoord(pos, mat, x0, y0, z0){
+		pos.w = x0 * mat._14 + y0 * mat._24 + z0 * mat._34 + mat._44;
+		pos.x = (x0 * mat._11 + y0 * mat._21 + z0 * mat._31 + mat._41) / pos.w;
+		pos.y = (x0 * mat._12 + y0 * mat._22 + z0 * mat._32 + mat._42) / pos.w;
+	}
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+
+	// 線描画
+	function draw3dLine(context, mat, x0, y0, z0, x1, y1, z1){
+		// 変換行列を用いて 3D -> 2D 変換
+		var p1 = new Object();
+		var p2 = new Object();
+		transCoord(p1, mat, x0, y0, z0);
+		transCoord(p2, mat, x1, y1, z1);
+		// 描画
+		context.beginPath();
+		context.moveTo(p1.x, p1.y);
+		context.lineTo(p2.x, p2.y);
+		context.closePath();
+		context.stroke();
+	}
+
+	// キャラクター描画データ
+	var characterPauseMat = new Object();
+	var characterPauseData = {
+		foot1: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.3, color:"white",},
+		foot2: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.3, color:"white",},
+		body0: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.6, color:"white",},
+		hand1: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.3, color:"white",},
+		hand2: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.3, color:"white",},
+		face0: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.6, color:"white",},
+		face1: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.1, color:"black",},
+		face2: {x0: 0.0, y0: 0.0, z0: 0.0, x: 0.0, y: 0.0, w: 0.0, rad:0.1, color:"black",},
+	};
+	var characterPauseList = [
+		characterPauseData.foot1,
+		characterPauseData.foot2,
+		characterPauseData.body0,
+		characterPauseData.hand1,
+		characterPauseData.hand2,
+		characterPauseData.face0,
+		characterPauseData.face1,
+		characterPauseData.face2,
+	];
+
+	// キャラクター描画
+	function drawCharacter(context, mat, ratio, x, y, z, rot, fat, step){
+		// ポーズ調整
+		var runcos = Math.cos((18 * step) * Math.PI / 180);
+		var runsin = Math.sin((18 * step) * Math.PI / 180);
+		var handcos = Math.cos(0);
+		var handsin = Math.sin(0);
+		var headcos = Math.cos(45 * Math.PI / 180);
+		var headsin = Math.sin(45 * Math.PI / 180);
+		// 両足
+		characterPauseData.foot1.x0 = -0.4;
+		characterPauseData.foot1.y0 =  0.3 + 0.2 * (1 - Math.abs(runcos));
+		characterPauseData.foot1.z0 = -0.5 * runsin;
+		characterPauseData.foot2.x0 =  0.4;
+		characterPauseData.foot2.y0 =  0.3 + 0.2 * (1 - Math.abs(runcos));
+		characterPauseData.foot2.z0 =  0.5 * runsin;
+		// 体
+		characterPauseData.body0.rad = 0.6 * fat;
+		characterPauseData.body0.x0 =  0.0;
+		characterPauseData.body0.y0 =  0.4 + characterPauseData.body0.rad;
+		characterPauseData.body0.z0 =  0.0;
+		// 両手
+		characterPauseData.hand1.x0 = characterPauseData.body0.x0 - (characterPauseData.body0.rad + 0.2) * handcos;
+		characterPauseData.hand1.y0 = characterPauseData.body0.y0 + (characterPauseData.body0.rad + 0.2) * handsin;
+		characterPauseData.hand1.z0 =  0.3 * runsin;
+		characterPauseData.hand2.x0 = characterPauseData.body0.x0 + (characterPauseData.body0.rad + 0.2) * handcos;
+		characterPauseData.hand2.y0 = characterPauseData.body0.y0 + (characterPauseData.body0.rad + 0.2) * handsin;
+		characterPauseData.hand2.z0 = -0.3 * runsin;
+		// 顔
+		characterPauseData.face0.x0 = 0.0;
+		characterPauseData.face0.y0 = characterPauseData.body0.y0 + (characterPauseData.body0.rad + 0.4) * headcos;
+		characterPauseData.face0.z0 = characterPauseData.body0.z0 + (characterPauseData.body0.rad + 0.4) * headsin;
+		characterPauseData.face1.x0 = characterPauseData.face0.x0 + -0.3;
+		characterPauseData.face1.y0 = characterPauseData.face0.y0 +  0.2;
+		characterPauseData.face1.z0 = characterPauseData.face0.z0 +  0.5;
+		characterPauseData.face2.x0 = characterPauseData.face0.x0 +  0.3;
+		characterPauseData.face2.y0 = characterPauseData.face0.y0 +  0.2;
+		characterPauseData.face2.z0 = characterPauseData.face0.z0 +  0.5;
+		// 移動による振動
+		characterPauseData.hand1.y0 -= 0.1 * Math.abs(runsin);
+		characterPauseData.hand2.y0 -= 0.1 * Math.abs(runsin);
+		characterPauseData.body0.y0 -= 0.1 * Math.abs(runsin);
+		characterPauseData.face0.y0 -= 0.1 * Math.abs(runsin);
+		characterPauseData.face1.y0 -= 0.1 * Math.abs(runsin);
+		characterPauseData.face2.y0 -= 0.1 * Math.abs(runsin);
+
+		// 行列演算
+		matCopy(characterPauseMat, mat);
+		matMulTranslate(characterPauseMat, x, y, z);
+		matMulRotY(characterPauseMat, rot);
+		// 行列変換と並べ替え
+		for(var i = 0; i < characterPauseList.length; i++){
+			var p = characterPauseList[i];
+			transCoord(p, characterPauseMat, p.x0, p.y0, p.z0);
+		}
+		characterPauseList.sort(function(a, b){return a.w - b.w;});
+
+		// 描画
+		for(var i = 0; i < characterPauseList.length; i++){
+			var p = characterPauseList[i];
+			context.fillStyle = p.color;
+			context.beginPath();
+			context.arc(p.x, p.y, p.rad * ratio / Math.abs(p.w), Math.PI * 0.0, Math.PI * 2.0, false);
+			context.closePath();
+			context.fill();
+			context.stroke();
+		}
+	}
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+
+	window.addEventListener("DOMContentLoaded", function(){
+		// キャンバス
+		var canvas = document.getElementById("world");
+		var context = canvas.getContext("2d");
+
+		// 描画変数
+		var mat = new Object();
+		var step = 0;
+
+		// プレイヤー情報
+		var playerData = {
+			kind: "character",
+			x0: 0.0,
+			y0: 0.0,
+			z0: 0.0,
+			x: 0.0,
+			y: 0.0,
+			w: 0.0,
+			grid: 0,
+			getItem: new Array(),
+		};
+		playerData.getItem.push({type: -1});
+		playerData.getItem.push({type: -1});
+		playerData.getItem.push({type: -1});
+		playerData.getItem.push({type: -1});
+		playerData.getItem.push({type: -1});
+		// アイテム情報
+		var itemList = new Array();
+		itemList.push(playerData);
+
+		// ゲージ定数
+		var fatGaugex0 = 20;
+		var fatGaugex1 = canvas.width - 20;
+		var fatGaugey = canvas.height - 20;
+		var posGaugex0 = 80;
+		var posGaugex1 = canvas.width - 80;
+		var posGaugey = canvas.height - 50;
+		// ゲージ情報
+		var fatGaugePosNext = 0.5;
+		var posGaugePosNext = 0.5;
+		var fatGaugePos = fatGaugePosNext;
+		var posGaugePos = posGaugePosNext;
+		var fatGaugeMode = false;
+		var posGaugeMode = false;
+
+		// 初期化
+		ctrl.init(canvas);
+
+		// メインループ
+		var mainloop = function(){
+			// ダンパ処理
+			var dfg = fatGaugePos - fatGaugePosNext;
+			var dpg = posGaugePos - posGaugePosNext;
+			if(Math.abs(dfg) > 0.01){fatGaugePos -= dfg * 0.2;}
+			if(Math.abs(dpg) > 0.01){posGaugePos -= dpg * (0.3 - 0.2 * fatGaugePos);}
+
+			// タッチ確認処理
+			if(ctrl.mdn){
+				if(posGaugeMode){
+					// 位置ゲージ調整中
+					posGaugePosNext = (ctrl.mx - posGaugex0) / (posGaugex1 - posGaugex0);
+					if(posGaugePosNext < 0.0){posGaugePosNext = 0.0;}
+					if(posGaugePosNext > 1.0){posGaugePosNext = 1.0;}
+				}else{
+					var debug = document.getElementById("debugMode").checked;
+					if(debug && fatGaugeMode){
+						// デブゲージ調整中 デバッグ用
+						fatGaugePosNext = (ctrl.mx - fatGaugex0) / (fatGaugex1 - fatGaugex0);
+						if(fatGaugePosNext < 0.0){fatGaugePosNext = 0.0;}
+						if(fatGaugePosNext > 1.0){fatGaugePosNext = 1.0;}
+					}else if(debug && fatGaugey - 20 < ctrl.my && ctrl.my < fatGaugey + 20){
+						// デブゲージ調整開始 デバッグ用
+						fatGaugeMode = true;
+						posGaugeMode = false;
+					}else{
+						// 位置ゲージ調整開始
+						fatGaugeMode = false;
+						posGaugeMode = true;
+					}
+				}
+			}else{
+				fatGaugeMode = false;
+				posGaugeMode = false;
+				posGaugePosNext = posGaugePosNext < 0.33 ? 0 : posGaugePosNext < 0.66 ? 0.5 : 1;
+			}
+
+			// キャラクタ位置設定
+			playerData.x0 = -2 + 4 * posGaugePos;
+			playerData.z0 += 0.25 - 0.20 * fatGaugePos;
+			playerData.grid = posGaugePos < 0.33 ? 2 : posGaugePos < 0.66 ? 1 : 0;
+			// アイテム作成
+			if(step % 50 == 0){
+				var grid = Math.floor(3 * Math.random());
+				itemList.push({
+					kind: "item",
+					x0: 0.0 + 2.0 * (1 - grid),
+					y0: 0.5,
+					z0: playerData.z0 + 5.5,
+					x: 0.0,
+					y: 0.0,
+					w: 0.0, 
+					grid: grid,
+					type: Math.floor(3 * Math.random()),
+				});
+			}
+			// アイテム計算
+			for(var i = 0; i < itemList.length; i++){
+				var item = itemList[i];
+				if(item.kind == "item"){
+					var zdiff = playerData.z0 - item.z0;
+					// アイテム取得確認
+					if(-0.1 < zdiff && zdiff < 0.1 && playerData.grid == item.grid){
+						// ダイエット効果検証
+						var dietCount = 0;
+						for(var j = 0; j < playerData.getItem.length; j++){if(item.type == playerData.getItem[j].type){dietCount++;}}
+						fatGaugePosNext += (dietCount >= playerData.getItem.length - 1) ? -0.05 : 0.05;
+						if(fatGaugePosNext < 0.0){fatGaugePosNext = 0.0;}
+						if(fatGaugePosNext > 1.0){fatGaugePosNext = 1.0;}
+						// 配列操作
+						playerData.getItem.unshift(item);
+						playerData.getItem.pop();
+						itemList.splice(i--, 1);
+					}
+					// アイテム消滅確認
+					if(zdiff > 2.5){itemList.splice(i--, 1);}
+				}
+			}
+
+			// 画面クリア
+			context.fillStyle = "rgb(255, 255, 255)";
+			context.fillRect(0, 0, canvas.width, canvas.height);
+
+			// 変換行列
+			var ratio = matCreateFrustum(mat, canvas.width, canvas.height);
+			matMulTranslate(mat, 0, -2, -(10 + (fatGaugePos > 0.5 ? ((fatGaugePos - 0.5) * 10) : 0)));
+			matMulRotY(mat, (step + 180) * Math.PI / 180);
+			matMulTranslate(mat, -playerData.x0 * 0.5, -playerData.y0, -playerData.z0);
+
+			// 地面描画
+			var groundz = Math.round(playerData.z0);
+			for(var i = -2; i <= 5; i++){draw3dLine(context, mat, -3, 0, groundz + i,  3, 0, groundz + i);}
+			draw3dLine(context, mat, -3.5, 0, playerData.z0 - 2.5, -3.5, 0, playerData.z0 + 5.5);
+			draw3dLine(context, mat,  3.5, 0, playerData.z0 - 2.5,  3.5, 0, playerData.z0 + 5.5);
+
+			// アイテム行列変換と並べ替え
+			for(var i = 0; i < itemList.length; i++){
+				var p = itemList[i];
+				transCoord(p, mat, p.x0, p.y0, p.z0);
+			}
+			itemList.sort(function(a, b){return a.w - b.w;});
+			// アイテム描画
+			for(var i = 0; i < itemList.length; i++){
+				var item = itemList[i];
+				if(item.kind == "character"){
+					// キャラクタ描画
+					var fat = 0.5 + 4.5 * fatGaugePos;
+					drawCharacter(context, mat, ratio, item.x0, item.y0, item.z0, Math.PI * 0.0, fat, step);
+				}else if(item.kind == "item"){
+					// アイテム描画
+					var rad = 0.5;
+					switch(item.type){
+						case 0: context.fillStyle = "red"; break;
+						case 1: context.fillStyle = "yellow"; break;
+						case 2: context.fillStyle = "gray"; break;
+						default: context.fillStyle = "white"; break;
+					}
+					context.beginPath();
+					context.arc(item.x, item.y, rad * ratio / Math.abs(item.w), Math.PI * 0.0, Math.PI * 2.0, false);
+					context.closePath();
+					context.fill();
+					context.stroke();
+				}
+			}
+
+			// ステータス描画
+			for(var i = 0; i < playerData.getItem.length; i++){
+				switch(playerData.getItem[i].type){
+					case 0: context.fillStyle = "red"; break;
+					case 1: context.fillStyle = "yellow"; break;
+					case 2: context.fillStyle = "gray"; break;
+					default: context.fillStyle = "white"; break;
+				}
+				context.beginPath();
+				context.arc(20 + i * 25, 20, 10, Math.PI * 0.0, Math.PI * 2.0, false);
+				context.closePath();
+				context.fill();
+				context.stroke();
+			}
+
+			// デブゲージ外枠描画
+			context.fillStyle = "white";
+			context.beginPath();
+			context.arc(fatGaugex0, fatGaugey, 10, Math.PI * 0.5, Math.PI * 1.5, false);
+			context.arc(fatGaugex1, fatGaugey, 10, Math.PI * 1.5, Math.PI * 2.5, false);
+			context.closePath();
+			context.fill();
+			context.stroke();
+			// デブゲージ内枠描画
+			context.beginPath();
+			context.arc(fatGaugex0, fatGaugey, 6, Math.PI * 0.5, Math.PI * 1.5, false);
+			context.arc(fatGaugex0 + fatGaugePos * (fatGaugex1 - fatGaugex0), fatGaugey, 6, Math.PI * 1.5, Math.PI * 2.5, false);
+			context.closePath();
+			context.fill();
+			context.stroke();
+
+			// 位置ゲージ描画
+			context.fillStyle = "white";
+			context.beginPath();
+			context.arc(posGaugex0, posGaugey, 10, Math.PI * 0.5, Math.PI * 1.5, false);
+			context.arc(posGaugex1, posGaugey, 10, Math.PI * 1.5, Math.PI * 2.5, false);
+			context.closePath();
+			context.fill();
+			context.stroke();
+			// 位置マーカー描画
+			context.beginPath();
+			context.arc(posGaugex0 + posGaugePos * (posGaugex1 - posGaugex0), posGaugey, 15, Math.PI * 0.0, Math.PI * 2.0, false);
+			context.closePath();
+			context.fill();
+			context.stroke();
+
+			// 次のフレームへ
+			step++;
+			setTimeout(mainloop, 40);
+		};
+		mainloop();
+	}, false);
+
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+})(this);
+	</script>
+</body><html>
