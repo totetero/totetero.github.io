@@ -22,9 +22,9 @@
 		img { vertical-align: bottom; }
 
 		.title { width: 100%; max-width: 800px; }
-		.title img { width: 210px; height: 60px; }
-		.subtitle { width: 100%; text-align: center; background-color: red; }
-		.content { text-align: center; padding: 10px 0px; }
+		.title img { width: 255px; height: 90px; }
+		.subtitle { width: 100%; text-align: center; color: darkcyan; background-color: aquamarine; }
+		.content { text-align: center; padding: 10px 0px; color: white; }
 	</style>
 </head><body>
 	<div class="title"><img src="./img/title.png"></div>
@@ -48,6 +48,22 @@
 		<div><span id="i18n_spanId_getWeb_asterisk_reset"></span></div>
 		<div><span id="i18n_spanId_getWeb_asterisk_appData"></span></div>
 		<div><button type="button" id="buttonReset"><span id="i18n_spanId_getWeb_button_reset"></span></button></div>
+	</div>
+
+	<div class="subtitle"><span id="i18n_spanId_movie_caption"></span></div>
+
+	<div class="content">
+		<iframe width="312" height="176" src="http://ext.nicovideo.jp/thumb/sm28063621" scrolling="no" style="border:solid 1px #CCC;" frameborder="0"><a href="http://www.nicovideo.jp/watch/sm28063621">【ニコニコ動画】【ニコニコ自作ゲームフェス2016】グルリンダッシュ【たのしい】</a></iframe>
+	</div>
+
+	<div class="subtitle"><span id="i18n_spanId_credit_caption"></span></div>
+
+	<div class="content">
+		<table style="margin:10px auto;">
+			<tr><td style="text-align:right;"><span id="i18n_spanId_credit_game"></span>:</td><td style="text-align:left;">ぽろゆき<a href="https://twitter.com/totetero">@totetero</a></td></tr>
+			<tr><td style="text-align:right;"><span id="i18n_spanId_credit_movie"></span>:</td><td style="text-align:left;">ふるめた<a href="https://twitter.com/spiritedge">@spiritedge</a></td></tr>
+			<tr><td style="text-align:right;"><span id="i18n_spanId_credit_sound"></span>:</td><td style="text-align:left;"><a href="http://musix51.com/">MUSiX51</a> <a href="http://maoudamashii.jokersounds.com/">魔王魂</a> <a href="http://osabisi.sakura.ne.jp/m2/index.html">ザ・マッチメイカァズ</a></td></tr>
+		</table>
 	</div>
 
 	<div style="flex-grow: 1;"></div>
@@ -101,6 +117,11 @@
 		"i18n_spanId_getWeb_asterisk_reset":   "※ゲームが上手く動かない方はデータをリセットしてください。",
 		"i18n_spanId_getWeb_asterisk_appData": "※アプリへのデータの引き継ぎはできません。",
 		"i18n_spanId_getWeb_button_reset":     "データをリセット",
+		"i18n_spanId_movie_caption":           "公式動画",
+		"i18n_spanId_credit_caption":          "クレジット",
+		"i18n_spanId_credit_game":             "ゲーム作成",
+		"i18n_spanId_credit_movie":            "動画作成",
+		"i18n_spanId_credit_sound":            "音楽効果音",
 	};
 
 	// 英語
@@ -114,6 +135,11 @@
 		"i18n_spanId_getWeb_asterisk_reset":   "",
 		"i18n_spanId_getWeb_asterisk_appData": "",
 		"i18n_spanId_getWeb_button_reset":     "reset",
+		"i18n_spanId_movie_caption":           "official movie",
+		"i18n_spanId_credit_caption":          "credit",
+		"i18n_spanId_credit_game":             "game creator",
+		"i18n_spanId_credit_movie":            "movie creator",
+		"i18n_spanId_credit_sound":            "sound creator",
 	};
 
 	// 言語判定
