@@ -48,6 +48,7 @@
 		<div><span id="i18n_spanId_getWeb_asterisk_reset"></span></div>
 		<div><span id="i18n_spanId_getWeb_asterisk_appData"></span></div>
 		<div><button type="button" id="buttonReset"><span id="i18n_spanId_getWeb_button_reset"></span></button></div>
+		<div><button type="button" id="buttonCheat" style="display: none;"><span id="i18n_spanId_getWeb_button_cheat"></span></button></div>
 	</div>
 
 	<div class="subtitle"><span id="i18n_spanId_movie_caption"></span></div>
@@ -96,8 +97,71 @@
 	// データリセットボタン
 	document.getElementById("buttonReset").addEventListener("click", function(){
 		if(window.confirm("Do you want to reset the data?")){
-			window.localStorage.clear();
+			window.localStorage.removeItem("storage_setting");
+			window.localStorage.removeItem("storage_progress");
+			window.localStorage.removeItem("storage_progress_stage_0101");
+			window.localStorage.removeItem("storage_progress_stage_0201");
+			window.localStorage.removeItem("storage_progress_stage_0301");
+			window.localStorage.removeItem("storage_progress_stage_0401");
+			window.localStorage.removeItem("storage_progress_stage_0501");
+			window.localStorage.removeItem("storage_progress_stage_0601");
+			window.localStorage.removeItem("storage_progress_stage_0701");
+			window.localStorage.removeItem("storage_progress_stage_0801");
+			window.localStorage.removeItem("storage_progress_stage_0901");
+			window.localStorage.removeItem("storage_progress_stage_1001");
+			window.localStorage.removeItem("storage_progress_stage_1101");
+			window.localStorage.removeItem("storage_progress_stage_1201");
+			window.localStorage.removeItem("storage_progress_stage_1301");
+			window.localStorage.removeItem("storage_progress_stage_1401");
+			window.localStorage.removeItem("storage_progress_stage_1501");
+			window.localStorage.removeItem("storage_progress_stage_1601");
+			window.localStorage.removeItem("storage_progress_stage_1701");
+			window.localStorage.removeItem("storage_progress_stage_1801");
+			window.localStorage.removeItem("storage_progress_stage_1901");
+			window.localStorage.removeItem("storage_progress_stage_2001");
+			window.localStorage.removeItem("storage_progress_stage_2101");
+			window.localStorage.removeItem("storage_progress_stage_2201");
+			window.localStorage.removeItem("storage_progress_stage_2301");
+			window.localStorage.removeItem("storage_progress_stage_2401");
+			window.localStorage.removeItem("storage_progress_stage_2501");
+			window.localStorage.removeItem("storage_progress_stage_2601");
+			window.localStorage.removeItem("storage_progress_stage_2701");
+			window.localStorage.removeItem("storage_progress_replay_0101");
+			window.localStorage.removeItem("storage_progress_replay_0201");
+			window.localStorage.removeItem("storage_progress_replay_0301");
+			window.localStorage.removeItem("storage_progress_replay_0401");
+			window.localStorage.removeItem("storage_progress_replay_0501");
+			window.localStorage.removeItem("storage_progress_replay_0601");
+			window.localStorage.removeItem("storage_progress_replay_0701");
+			window.localStorage.removeItem("storage_progress_replay_0801");
+			window.localStorage.removeItem("storage_progress_replay_0901");
+			window.localStorage.removeItem("storage_progress_replay_1001");
+			window.localStorage.removeItem("storage_progress_replay_1101");
+			window.localStorage.removeItem("storage_progress_replay_1201");
+			window.localStorage.removeItem("storage_progress_replay_1301");
+			window.localStorage.removeItem("storage_progress_replay_1401");
+			window.localStorage.removeItem("storage_progress_replay_1501");
+			window.localStorage.removeItem("storage_progress_replay_1601");
+			window.localStorage.removeItem("storage_progress_replay_1701");
+			window.localStorage.removeItem("storage_progress_replay_1801");
+			window.localStorage.removeItem("storage_progress_replay_1901");
+			window.localStorage.removeItem("storage_progress_replay_2001");
+			window.localStorage.removeItem("storage_progress_replay_2101");
+			window.localStorage.removeItem("storage_progress_replay_2201");
+			window.localStorage.removeItem("storage_progress_replay_2301");
+			window.localStorage.removeItem("storage_progress_replay_2401");
+			window.localStorage.removeItem("storage_progress_replay_2501");
+			window.localStorage.removeItem("storage_progress_replay_2601");
+			window.localStorage.removeItem("storage_progress_replay_2701");
 			window.alert("The data was reset.");
+		}
+	});
+
+	// チートボタン
+	document.getElementById("buttonCheat").addEventListener("click", function(){
+		if(window.confirm("Do you like cheat?")){
+			window.localStorage.setItem("storage_progress", "AAEDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMAAAAAAAMDAwMDAAAAAAAAAAAAAAADAwMDAwMDAwMAAAAAAAAAAAAAAAAA");
+			window.alert("You are cheater.");
 		}
 	});
 
@@ -118,6 +182,7 @@
 		"i18n_spanId_getWeb_asterisk_reset":   "※ゲームが上手く動かない方はデータをリセットしてください。",
 		"i18n_spanId_getWeb_asterisk_appData": "※アプリへのデータの引き継ぎはできません。",
 		"i18n_spanId_getWeb_button_reset":     "データをリセット",
+		"i18n_spanId_getWeb_button_cheat":     "すべてを解放",
 		"i18n_spanId_movie_caption":           "公式動画",
 		"i18n_spanId_credit_caption":          "クレジット",
 		"i18n_spanId_credit_game":             "ゲーム作成",
@@ -137,6 +202,7 @@
 		"i18n_spanId_getWeb_asterisk_reset":   "",
 		"i18n_spanId_getWeb_asterisk_appData": "",
 		"i18n_spanId_getWeb_button_reset":     "reset",
+		"i18n_spanId_getWeb_button_cheat":     "cheat",
 		"i18n_spanId_movie_caption":           "official movie",
 		"i18n_spanId_credit_caption":          "credit",
 		"i18n_spanId_credit_game":             "game creator",
