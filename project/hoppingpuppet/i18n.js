@@ -22,6 +22,10 @@
 		"i18n_spanId_getWeb_asterisk_appData": "※アプリへのデータの引き継ぎはできません。",
 		"i18n_spanId_getWeb_button_reset":     "データをリセット",
 		"i18n_spanId_getWeb_button_cheat":     "すべてを解放",
+		"i18n_spanId_credit_caption":          "クレジット",
+		"i18n_spanId_credit_game":             "ゲーム作成",
+		"i18n_spanId_credit_sound":            "音楽効果音",
+		"i18n_spanId_credit_asterisk_sound":   "※音楽効果音付きのバージョンは現在公開されていません。",
 		"i18n_spanId_button_back":             "戻る",
 	};
 
@@ -37,6 +41,10 @@
 		"i18n_spanId_getWeb_asterisk_appData": "",
 		"i18n_spanId_getWeb_button_reset":     "reset",
 		"i18n_spanId_getWeb_button_cheat":     "cheat",
+		"i18n_spanId_credit_caption":          "credit",
+		"i18n_spanId_credit_game":             "game creator",
+		"i18n_spanId_credit_sound":            "sound creator",
+		"i18n_spanId_credit_asterisk_sound":   "",
 		"i18n_spanId_button_back":             "back",
 	};
 
