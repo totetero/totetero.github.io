@@ -1,40 +1,122 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="180" height="180">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="360" height="360">
 	<g id="partsList">
-		<circle cx="102" cy="94" r="11" fill="black"/>
-		<circle cx="73" cy="117" r="15" fill="black"/>
-		<circle cx="107" cy="118" r="15" fill="black"/>
-		<circle cx="90" cy="98" r="23" fill="black"/>
-		<circle cx="86" cy="53" r="11" fill="black"/>
-		<circle cx="90" cy="59" r="16" fill="black"/>
-		<circle cx="94" cy="66" r="21" fill="black"/>
-		<circle cx="78" cy="102" r="11" fill="black"/>
-		<circle cx="98" cy="72" r="26" fill="black"/>
-		<circle cx="111" cy="68" r="8" fill="black"/>
-		<circle cx="111" cy="72" r="8" fill="black"/>
-		<circle cx="111" cy="77" r="8" fill="black"/>
-		<circle cx="111" cy="81" r="8" fill="black"/>
-		<circle cx="103" cy="69" r="8" fill="black"/>
-		<circle cx="103" cy="73" r="8" fill="black"/>
-		<circle cx="103" cy="77" r="8" fill="black"/>
-		<circle cx="103" cy="82" r="8" fill="black"/>
-		<circle cx="102" cy="94" r="7" fill="red"/>
-		<circle cx="73" cy="117" r="11" fill="red"/>
-		<circle cx="107" cy="118" r="11" fill="red"/>
-		<circle cx="90" cy="98" r="19" fill="red"/>
-		<circle cx="86" cy="53" r="7" fill="red"/>
-		<circle cx="90" cy="59" r="12" fill="red"/>
-		<circle cx="94" cy="66" r="17" fill="red"/>
-		<circle cx="78" cy="102" r="7" fill="red"/>
-		<circle cx="98" cy="72" r="22" fill="red"/>
-		<circle cx="111" cy="68" r="4" fill="black"/>
-		<circle cx="111" cy="72" r="4" fill="black"/>
-		<circle cx="111" cy="77" r="4" fill="black"/>
-		<circle cx="111" cy="81" r="4" fill="black"/>
-		<circle cx="103" cy="69" r="4" fill="black"/>
-		<circle cx="103" cy="73" r="4" fill="black"/>
-		<circle cx="103" cy="77" r="4" fill="black"/>
-		<circle cx="103" cy="82" r="4" fill="black"/>
+		<circle cx="183" cy="144" r="16" fill="black"/>
+		<circle cx="155" cy="144" r="16" fill="black"/>
+		<circle cx="192" cy="119" r="12" fill="black"/>
+		<circle cx="169" cy="121" r="24" fill="black"/>
+		<circle cx="147" cy="123" r="12" fill="black"/>
+		<circle cx="168" cy="74" r="12" fill="black"/>
+		<circle cx="169" cy="82" r="17" fill="black"/>
+		<circle cx="171" cy="90" r="22" fill="black"/>
+		<circle cx="172" cy="98" r="27" fill="black"/>
+		<circle cx="183" cy="144" r="12" fill="red"/>
+		<circle cx="155" cy="144" r="12" fill="red"/>
+		<circle cx="192" cy="119" r="8" fill="red"/>
+		<circle cx="169" cy="121" r="20" fill="red"/>
+		<circle cx="147" cy="123" r="8" fill="red"/>
+		<circle cx="168" cy="74" r="8" fill="red"/>
+		<circle cx="169" cy="82" r="13" fill="red"/>
+		<circle cx="171" cy="90" r="18" fill="red"/>
+		<circle cx="172" cy="98" r="23" fill="red"/>
+		<circle cx="180" cy="98" r="4" fill="black"/>
+		<circle cx="180" cy="102" r="4" fill="black"/>
+		<circle cx="180" cy="107" r="4" fill="black"/>
+		<circle cx="180" cy="111" r="4" fill="black"/>
+		<circle cx="170" cy="98" r="4" fill="black"/>
+		<circle cx="170" cy="103" r="4" fill="black"/>
+		<circle cx="170" cy="107" r="4" fill="black"/>
+		<circle cx="170" cy="111" r="4" fill="black"/>
+		<circle cx="232" cy="142" r="20" fill="black"/>
+		<circle cx="212" cy="143" r="20" fill="black"/>
+		<circle cx="233" cy="121" r="20" fill="black"/>
+		<circle cx="212" cy="122" r="20" fill="black"/>
+		<circle cx="239" cy="147" r="21" fill="black"/>
+		<circle cx="217" cy="148" r="21" fill="black"/>
+		<circle cx="240" cy="125" r="21" fill="black"/>
+		<circle cx="218" cy="126" r="21" fill="black"/>
+		<circle cx="232" cy="142" r="16" fill="red"/>
+		<circle cx="212" cy="143" r="16" fill="pink"/>
+		<circle cx="233" cy="121" r="16" fill="pink"/>
+		<circle cx="212" cy="122" r="16" fill="red"/>
+		<circle cx="239" cy="147" r="17" fill="pink"/>
+		<circle cx="217" cy="148" r="17" fill="red"/>
+		<circle cx="240" cy="125" r="17" fill="red"/>
+		<circle cx="218" cy="126" r="17" fill="pink"/>
+		<circle cx="127" cy="146" r="20" fill="black"/>
+		<circle cx="104" cy="147" r="21" fill="black"/>
+		<circle cx="125" cy="124" r="21" fill="black"/>
+		<circle cx="103" cy="125" r="21" fill="black"/>
+		<circle cx="127" cy="152" r="21" fill="black"/>
+		<circle cx="103" cy="153" r="22" fill="black"/>
+		<circle cx="126" cy="129" r="22" fill="black"/>
+		<circle cx="102" cy="130" r="22" fill="black"/>
+		<circle cx="127" cy="146" r="16" fill="red"/>
+		<circle cx="104" cy="147" r="17" fill="pink"/>
+		<circle cx="125" cy="124" r="17" fill="pink"/>
+		<circle cx="103" cy="125" r="17" fill="red"/>
+		<circle cx="127" cy="152" r="17" fill="pink"/>
+		<circle cx="103" cy="153" r="18" fill="red"/>
+		<circle cx="126" cy="129" r="18" fill="red"/>
+		<circle cx="102" cy="130" r="18" fill="pink"/>
+		<circle cx="274" cy="177" r="25" fill="black"/>
+		<circle cx="246" cy="179" r="26" fill="black"/>
+		<circle cx="276" cy="150" r="26" fill="black"/>
+		<circle cx="248" cy="151" r="26" fill="black"/>
+		<circle cx="286" cy="188" r="27" fill="black"/>
+		<circle cx="256" cy="190" r="27" fill="black"/>
+		<circle cx="289" cy="158" r="28" fill="black"/>
+		<circle cx="259" cy="160" r="28" fill="black"/>
+		<circle cx="274" cy="177" r="21" fill="red"/>
+		<circle cx="246" cy="179" r="22" fill="pink"/>
+		<circle cx="276" cy="150" r="22" fill="pink"/>
+		<circle cx="248" cy="151" r="22" fill="red"/>
+		<circle cx="286" cy="188" r="23" fill="pink"/>
+		<circle cx="256" cy="190" r="23" fill="red"/>
+		<circle cx="289" cy="158" r="24" fill="red"/>
+		<circle cx="259" cy="160" r="24" fill="pink"/>
+		<circle cx="210" cy="168" r="21" fill="black"/>
+		<circle cx="160" cy="143" r="15" fill="black"/>
+		<circle cx="192" cy="147" r="32" fill="black"/>
+		<circle cx="175" cy="183" r="21" fill="black"/>
+		<circle cx="224" cy="151" r="15" fill="black"/>
+		<circle cx="190" cy="78" r="15" fill="black"/>
+		<circle cx="192" cy="90" r="23" fill="black"/>
+		<circle cx="194" cy="102" r="31" fill="black"/>
+		<circle cx="196" cy="113" r="38" fill="black"/>
+		<circle cx="210" cy="168" r="17" fill="red"/>
+		<circle cx="160" cy="143" r="11" fill="red"/>
+		<circle cx="192" cy="147" r="28" fill="red"/>
+		<circle cx="175" cy="183" r="17" fill="red"/>
+		<circle cx="224" cy="151" r="11" fill="red"/>
+		<circle cx="190" cy="78" r="11" fill="red"/>
+		<circle cx="192" cy="90" r="19" fill="red"/>
+		<circle cx="194" cy="102" r="27" fill="red"/>
+		<circle cx="196" cy="113" r="34" fill="red"/>
+		<circle cx="208" cy="113" r="6" fill="black"/>
+		<circle cx="208" cy="119" r="6" fill="black"/>
+		<circle cx="208" cy="125" r="6" fill="black"/>
+		<circle cx="208" cy="132" r="6" fill="black"/>
+		<circle cx="194" cy="113" r="6" fill="black"/>
+		<circle cx="194" cy="120" r="6" fill="black"/>
+		<circle cx="194" cy="126" r="6" fill="black"/>
+		<circle cx="194" cy="133" r="6" fill="black"/>
+		<circle cx="130" cy="185" r="27" fill="black"/>
+		<circle cx="99" cy="187" r="27" fill="black"/>
+		<circle cx="128" cy="156" r="27" fill="black"/>
+		<circle cx="96" cy="158" r="28" fill="black"/>
+		<circle cx="130" cy="197" r="29" fill="black"/>
+		<circle cx="97" cy="199" r="29" fill="black"/>
+		<circle cx="129" cy="166" r="30" fill="black"/>
+		<circle cx="94" cy="168" r="30" fill="black"/>
+		<circle cx="130" cy="185" r="23" fill="red"/>
+		<circle cx="99" cy="187" r="23" fill="pink"/>
+		<circle cx="128" cy="156" r="23" fill="pink"/>
+		<circle cx="96" cy="158" r="24" fill="red"/>
+		<circle cx="130" cy="197" r="25" fill="pink"/>
+		<circle cx="97" cy="199" r="25" fill="red"/>
+		<circle cx="129" cy="166" r="26" fill="red"/>
+		<circle cx="94" cy="168" r="26" fill="pink"/>
 	</g>
 	<script type="text/javascript"><![CDATA[
 // ----------------------------------------------------------------
@@ -346,8 +428,10 @@ const matrixTypicalLookAt = (mat, eyeX, eyeY, eyeZ) => {
 class BallObject {
 	constructor() {
 		this.position = vectorCreateZero();
-		this.balls = []; // { part: { vector: { x: number; y: number; z: number; }; r: number; color: string; }; canvas: { x: number; y: number; z: number; r: number; }; }[]
+		this.balls = []; // { part: { vector: { x: number; y: number; z: number; }; r: number; color: string; isOuter: boolean; }; canvas: { x: number; y: number; z: number; r: number; }; }[]
+		this.rotate = 0;
 		this.zIndex = 0;
+		this.isPerspective = false;
 		this.tempMat01 = matrixCreateIdentity();
 		this.tempVec01 = vectorCreateZero();
 		this.tempVec02 = vectorCreateZero();
@@ -358,34 +442,62 @@ class BallObject {
 
 	// draw preparation 描画準備
 	drawPrep(matrixWorld) {
-		// find position on screen 画面上の位置を求める
+		// find origin position on screen 原点の画面上の位置を求める
 		vectorTransCoord(this.tempVec01, this.position, matrixWorld);
-		this.zIndex = -this.tempVec01.z;
-		const scale = 200 / this.tempVec01.w;
+		this.zIndex = this.tempVec01.z;
 
-		// calculate rotation and size 回転と大きさを計算
-		const rx = matrixWorld.m13;
-		const ry = matrixWorld.m23;
-		const rz = matrixWorld.m33;
-		matrixCreateIdentity(this.tempMat01);
-		matrixMultiplyRotationX(this.tempMat01, Math.asin(ry / Math.sqrt(rx * rx + ry * ry + rz * rz)));
-		matrixMultiplyRotationY(this.tempMat01, -Math.atan2(rx, rz));
-		matrixMultiplyScale(this.tempMat01, scale, scale, scale);
+		// calculate scale of matrix 行列のy軸方向拡大成分を計算
+		const sx = matrixWorld.m21;
+		const sy = matrixWorld.m22;
+		const sz = matrixWorld.m23;
+		const scaleY = Math.sqrt(sx * sx + sy * sy + sz * sz);
 
-		// calculate position of ball それぞれのボールの位置を計算
-		for (let i = 0; i < this.balls.length; i++) {
-			const ball = this.balls[i];
-			vectorTransCoord(this.tempVec02, ball.part.vector, this.tempMat01);
-			ball.canvas.x = this.tempVec02.x + this.tempVec01.x;
-			ball.canvas.y = this.tempVec02.y + this.tempVec01.y;
-			ball.canvas.z = this.tempVec02.z;
-			ball.canvas.r = Math.abs(ball.part.r * scale);
+		if (this.isPerspective) {
+			// multiply position and rotation matrix 位置と向きを示す行列を掛け合わせる
+			matrixCopy(this.tempMat01, matrixWorld);
+			matrixMultiplyTranslate(this.tempMat01, this.position.x, this.position.y, this.position.z);
+			matrixMultiplyRotationY(this.tempMat01, this.rotate);
+
+			// calculate position of ball by perspective projection それぞれのボールの位置を透視投影で計算
+			for (let i = 0; i < this.balls.length; i++) {
+				const ball = this.balls[i];
+				vectorTransCoord(this.tempVec02, ball.part.vector, this.tempMat01);
+				ball.canvas.x = this.tempVec02.x;
+				ball.canvas.y = this.tempVec02.y;
+				ball.canvas.z = this.tempVec02.z;
+				ball.canvas.r = Math.abs(ball.part.r * scaleY / this.tempVec02.w);
+			}
+		} else {
+			// calculate rotation of matrix 行列の水平軸と垂直軸の回転成分を計算
+			const rx = matrixWorld.m13;
+			const ry = matrixWorld.m23;
+			const rz = matrixWorld.m33;
+			const rotateHorizontal = Math.asin(ry / Math.sqrt(rx * rx + ry * ry + rz * rz));
+			const rotateVertical = -Math.atan2(rx, rz);
+			const scale = scaleY / this.tempVec01.w;
+
+			// coreate rotation and scale matrix 向きと大きさを示す行列を作成する
+			matrixCreateIdentity(this.tempMat01);
+			matrixMultiplyRotationX(this.tempMat01, rotateHorizontal);
+			matrixMultiplyRotationY(this.tempMat01, rotateVertical);
+			matrixMultiplyRotationY(this.tempMat01, this.rotate);
+			matrixMultiplyScale(this.tempMat01, scale, scale, scale);
+
+			// calculate position of ball by orthogonal projection それぞれのボールの位置を正射影で計算
+			for (let i = 0; i < this.balls.length; i++) {
+				const ball = this.balls[i];
+				vectorTransCoord(this.tempVec02, ball.part.vector, this.tempMat01);
+				ball.canvas.x = this.tempVec02.x + this.tempVec01.x;
+				ball.canvas.y = this.tempVec02.y + this.tempVec01.y;
+				ball.canvas.z = -this.tempVec02.z;
+				ball.canvas.r = Math.abs(ball.part.r * scale);
+			}
 		}
 	}
 
 	// draw sort 描画順並替
 	drawSort() {
-		this.balls.sort((ball1, ball2) => ball2.canvas.z - ball1.canvas.z);
+		this.balls.sort((ball1, ball2) => ball1.canvas.z - ball2.canvas.z);
 	}
 
 	// draw ball dom要素に値を流し込む
@@ -393,6 +505,7 @@ class BallObject {
 		// outer 枠線
 		for (let i = 0; i < this.balls.length; i++) {
 			const ball = this.balls[i];
+			if (ball.part.isOuter === false) { continue; }
 			elementCircleSet(ball.canvas.x, ball.canvas.y, ball.canvas.r + 4, "black");
 		}
 
@@ -410,32 +523,37 @@ class BallObject {
 
 // puppet パペット型ボール管理クラス
 class Puppet extends BallObject {
-	constructor(step) {
+	constructor(options) {
+		const optionsStep = (value => Number.isFinite(value) ? value : 0)(options.step);
+		const optionsColor = (value => typeof value === "string" ? value : "red")(options.color);
+		const optionsPoints = (value => Array.isArray(value) ? value : null)(options.points);
 		super();
+
 		// for calculate 計算用パーツ
-		this.partFotR = { vector: vectorCreateZero(), r: 0.3, color: "red", };
-		this.partFotL = { vector: vectorCreateZero(), r: 0.3, color: "red", };
-		this.partBody = { vector: vectorCreateZero(), r: 0.5, color: "red", };
-		this.partHndR = { vector: vectorCreateZero(), r: 0.2, color: "red", };
-		this.partHndL = { vector: vectorCreateZero(), r: 0.2, color: "red", };
-		this.partHeadList = Array(4).fill(0).map(() => ({ vector: vectorCreateZero(), r: 0.6, color: "red", }));
-		this.partEyeRList = Array(4).fill(0).map(() => ({ vector: vectorCreateZero(), r: 0.1, color: "black", }));
-		this.partEyeLList = Array(4).fill(0).map(() => ({ vector: vectorCreateZero(), r: 0.1, color: "black", }));
+		this.partFotR = { vector: vectorCreateZero(), r: 0.3, color: optionsColor, isOuter: true, };
+		this.partFotL = { vector: vectorCreateZero(), r: 0.3, color: optionsColor, isOuter: true, };
+		this.partBody = { vector: vectorCreateZero(), r: 0.5, color: optionsColor, isOuter: true, };
+		this.partHndR = { vector: vectorCreateZero(), r: 0.2, color: optionsColor, isOuter: true, };
+		this.partHndL = { vector: vectorCreateZero(), r: 0.2, color: optionsColor, isOuter: true, };
+		this.partHeadList = Array(4).fill(0).map(() => ({ vector: vectorCreateZero(), r: 0.6, color: optionsColor, isOuter: true, }));
+		this.partEyeRList = Array(4).fill(0).map(() => ({ vector: vectorCreateZero(), r: 0.1, color: "black", isOuter: false, }));
+		this.partEyeLList = Array(4).fill(0).map(() => ({ vector: vectorCreateZero(), r: 0.1, color: "black", isOuter: false, }));
 		for (let i = 0; i < this.partHeadList.length; i++) { this.partHeadList [i].r = 0.6 - 0.4 * i / (this.partHeadList.length - 1); }
+
 		// for draw 描画用パーツ
-		this.balls.push({ part: this.partFotR, canvas: { x: 0, y: 0, z: 0, r: 0 }, });
-		this.balls.push({ part: this.partFotL, canvas: { x: 0, y: 0, z: 0, r: 0 }, });
-		this.balls.push({ part: this.partBody, canvas: { x: 0, y: 0, z: 0, r: 0 }, });
-		this.balls.push({ part: this.partHndR, canvas: { x: 0, y: 0, z: 0, r: 0 }, });
-		this.balls.push({ part: this.partHndL, canvas: { x: 0, y: 0, z: 0, r: 0 }, });
-		this.balls = this.balls.concat(this.partHeadList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0 }, })));
-		this.balls = this.balls.concat(this.ballEyeRList = this.partEyeRList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0 }, })));
-		this.balls = this.balls.concat(this.ballEyeLList = this.partEyeLList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0 }, })));
-		// step ステップ
-		this.step = step;
+		this.balls.push({ part: this.partFotR, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partFotL, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partBody, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partHndR, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partHndL, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls = this.balls.concat(this.partHeadList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0, }, })));
+		this.balls = this.balls.concat(this.ballEyeRList = this.partEyeRList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0, }, })));
+		this.balls = this.balls.concat(this.ballEyeLList = this.partEyeLList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0, }, })));
+
 		// status weight 状態の重み値
-		this.statusWeightStand =0.0;
+		this.statusWeightStand = 0.0;
 		this.statusWeightRun = 1.0;
+
 		// body tilt 体のx軸角度 (calc関数で計算)
 		this.trigHead1Cos = 0;
 		this.trigHead1Sin = 0;
@@ -474,13 +592,59 @@ class Puppet extends BallObject {
 		// eye angle 目のz軸角度
 		this.trigEye02Cos = Math.cos(0 * Math.PI / 180);
 		this.trigEye02Sin = Math.sin(0 * Math.PI / 180);
+
+		// step ステップ
+		this.step = optionsStep;
+
+		// lines 軌道
+		this.lines = [];
+		this.lineTotalTime = 0;
+		this.lineIsMoveFirst = false;
+		if (optionsPoints !== null) {
+			for (let i = 0; i < optionsPoints.length; i++) {
+				const point = optionsPoints[i];
+				const x = optionsPoints[(i + 1) % optionsPoints.length].x;
+				const z = optionsPoints[(i + 1) % optionsPoints.length].z;
+				const dx = point.x - x;
+				const dz = point.z - z;
+				const time = Math.floor(Math.sqrt(dx * dx + dz * dz) * 20);
+				this.lines.push({ x0: point.x, z0: point.z, x1: x, z1: z, time, });
+				this.lineTotalTime += time;
+			}
+			this.lineIsMoveFirst = true;
+		}
 	}
 
 	// calculate 計算
 	calc() {
 		this.step++;
 
-		// calculate status weight
+		// calculate position and rotate 位置と角度の計算
+		if (this.lines.length > 0) {
+			let step = this.step % this.lineTotalTime;
+			for (let i = 0; i < this.lines.length; i++) {
+				const line = this.lines[i];
+				if (step - line.time > 0) {
+					step -= line.time;
+				} else {
+					this.position.x = line.x0 + (step / line.time) * (line.x1 - line.x0);
+					this.position.z = line.z0 + (step / line.time) * (line.z1 - line.z0);
+					const rotate = Math.PI + Math.atan2(line.x1 -  line.x0, line.z1 -  line.z0);
+					if (this.lineIsMoveFirst) {
+						this.rotate = rotate;
+						this.lineIsMoveFirst = false;
+					} else {
+						let dr = rotate - this.rotate;
+						while (dr < -Math.PI) { dr += Math.PI * 2; }
+						while (dr >  Math.PI) { dr -= Math.PI * 2; }
+						this.rotate += 0.2 * dr;
+					}
+					break;
+				}
+			}
+		}
+
+		// update status weight 重みの更新
 		this.statusWeightStand *= 0.9;
 		this.statusWeightRun *= 0.9;
 		if (this.statusWeightStand < 0.1) { this.statusWeightStand = 0.0; }
@@ -585,6 +749,27 @@ class Puppet extends BallObject {
 	}
 }
 
+// block ブロック型ボール管理クラス
+class Block extends BallObject {
+	constructor(options) {
+		const optionsX = (value => Number.isFinite(value) ? value : 0)(options.x);
+		const optionsZ = (value => Number.isFinite(value) ? value : 0)(options.z);
+		super();
+		this.position.x = optionsX;
+		this.position.z = optionsZ;
+		this.isPerspective = true;
+		const size1 = 0.3;
+		const size2 = 0.4;
+		this.balls.push({ part: { vector: { x: -size1, y: size2 + size1 - size1, z: -size1, }, r: size2, color: "pink", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: -size1, y: size2 + size1 - size1, z: +size1, }, r: size2, color: "red", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: -size1, y: size2 + size1 + size1, z: -size1, }, r: size2, color: "red", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: -size1, y: size2 + size1 + size1, z: +size1, }, r: size2, color: "pink", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: +size1, y: size2 + size1 - size1, z: -size1, }, r: size2, color: "red", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: +size1, y: size2 + size1 - size1, z: +size1, }, r: size2, color: "pink", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: +size1, y: size2 + size1 + size1, z: -size1, }, r: size2, color: "pink", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: { vector: { x: +size1, y: size2 + size1 + size1, z: +size1, }, r: size2, color: "red", isOuter: true, }, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+	}
+}
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -608,7 +793,7 @@ document.addEventListener("DOMContentLoaded", event => {
 		// ----------------------------------------------------------------
 		// init 初期化
 
-		params.step = -30;
+		params.step = 80;
 		params.tempMat01 = matrixCreateIdentity();
 		params.tempMat02 = matrixCreateIdentity();
 
@@ -634,9 +819,36 @@ document.addEventListener("DOMContentLoaded", event => {
 			element.setAttribute("fill", c);
 		};
 
+		const len = 3.0;
+		const rad = 0.5;
+		const points = [
+			{ x: 0,            z: 0,            },
+			{ x: len - rad,    z: 0,            },
+			{ x: len,          z: rad,          },
+			{ x: len,          z: len - rad,    },
+			{ x: len - rad,    z: len,          },
+			{ x: rad,          z: len,          },
+			{ x: 0,            z: len - rad,    },
+			{ x: 0,            z: -(len - rad), },
+			{ x: -rad,         z: -len,         },
+			{ x: -(len - rad), z: -len,         },
+			{ x: -len,         z: -(len - rad), },
+			{ x: -len,         z: -rad,         },
+			{ x: -(len - rad), z: 0,            },
+		];
+
+		params.puppets = [];
+		params.puppets.push(new Puppet({ step: params.step - 50, color: "red", points, }));
+		params.puppets.push(new Puppet({ step: params.step - 120, color: "red", points, }));
+
+		params.blocks = [];
+		params.blocks.push(new Block({ x: -1.5, z: -1.5, }));
+		params.blocks.push(new Block({ x: -1.5, z: +1.5, }));
+		params.blocks.push(new Block({ x: +1.5, z: -1.5, }));
+		params.blocks.push(new Block({ x: +1.5, z: +1.5, }));
+
 		// ball ボール
-		params.ballObjects = [];
-		params.ballObjects.push(new Puppet(params.step));
+		params.ballObjects = [].concat(params.puppets, params.blocks);
 
 		// ----------------------------------------------------------------
 	}, params => {
@@ -660,13 +872,12 @@ document.addEventListener("DOMContentLoaded", event => {
 		const matrixWorld = params.tempMat01;
 		const svgWidth = parseInt(document.getElementsByTagName("svg").item(0).getAttribute("width"), 10);
 		const svgHeight = parseInt(document.getElementsByTagName("svg").item(0).getAttribute("height"), 10);
-		const eyeX = 5 * Math.cos((params.step - 90) * Math.PI / 180);
-		const eyeY = 1;
-		const eyeZ = 5 * Math.sin((params.step - 90) * Math.PI / 180);
+		const eyeX = 8 * Math.cos((params.step - 90) * Math.PI / 180);
+		const eyeY = 3;
+		const eyeZ = 8 * Math.sin((params.step - 90) * Math.PI / 180);
 		matrixTypicalFrustum(params.tempMat01, svgWidth, svgHeight);
 		matrixTypicalLookAt(params.tempMat02, eyeX, eyeY, eyeZ);
 		matrixMultiply(matrixWorld, params.tempMat01, params.tempMat02);
-		matrixMultiplyTranslate(matrixWorld, 0, -1.5, 0)
 
 		// draw ball prep ボール要素の描画準備
 		for (let i = 0; i < params.ballObjects.length; i++) {
@@ -676,7 +887,7 @@ document.addEventListener("DOMContentLoaded", event => {
 		}
 
 		// sort ball ボールの並べ替え
-		params.ballObjects.sort((ballObject1, ballObject2) => ballObject2.zIndex - ballObject1.zIndex);
+		params.ballObjects.sort((ballObject1, ballObject2) => ballObject1.zIndex - ballObject2.zIndex);
 
 		// reset circle element 要素の描画を開始する
 		params.elementCircleReset();
