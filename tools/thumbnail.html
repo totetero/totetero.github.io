@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>tools</title>
+	<style>
+		body { margin: 0; overflow: hidden; }
+		body > div { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; }
+		body > div { position: absolute; left: 0; right: 0; top: 0; bottom: 0; padding: 20px; overflow: scroll; }
+	</style>
+</head><body>
+	<div>
+		<div>幅: <input id="inputNumberWidth" type="number" value="120"></div>
+		<div>高: <input id="inputNumberHeight" type="number" value="120"></div>
+		<div><button id="inputButton">サムネイル作成</button></div>
+	</div>
+	<script type="text/javascript">
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// DOMContentLoaded 処理はここから始まる
+document.addEventListener("DOMContentLoaded", event => {
+	document.getElementById("inputButton").addEventListener("click", async event => {
+		const file = await new Promise(resolve => {
+			const input = document.createElement("input");
+			input.type = "file";
+			input.addEventListener("change", evnet => resolve(input.files[0]));
+			input.click();
+		});
+
+		const base64 = await new Promise(resolve => {
+			const reader = new FileReader();
+			reader.addEventListener("load", event => resolve(reader.result));
+			reader.readAsDataURL(file);
+		});
+
+		const image = await new Promise(resolve => {
+			const image = document.createElement("img");
+			image.addEventListener("load", event => resolve(image));
+			image.src = base64;
+		});
+
+		const canvas = document.createElement("canvas");
+		canvas.width = document.getElementById("inputNumberWidth").value;
+		canvas.height = document.getElementById("inputNumberHeight").value;
+		const context = canvas.getContext("2d");
+		const srcx = 0;
+		const srcy = 0;
+		const srcw = image.width;
+		const srch = image.height;
+		const dstx = 0;
+		const dsty = 0;
+		const dstw = canvas.width;
+		const dsth = canvas.height;
+		context.drawImage(image, srcx, srcy, srcw, srch, dstx, dsty, dstw, dsth);
+
+		const link = document.createElement("a");
+		link.href = canvas.toDataURL("image/png");
+		link.download = "thumbnail.png";
+		link.click();
+	});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>
