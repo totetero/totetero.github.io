@@ -1,0 +1,9 @@
+{
+	"numGenes": 2000,
+	"numPopulation": 30,
+	"numElite": 3,
+	"numMutationMin": 100,
+	"numMutationMax": 600,
+	"canvasAxisSize": 640,
+	"sterically": false
+}

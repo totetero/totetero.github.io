@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>バナー作成</title>
+	<style type="text/css">
+		body { margin: 0; overflow: hidden; background-color: gray; }
+		#root { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; }
+		#root { position: absolute; left: 0; right: 0; top: 0; bottom: 0; padding: 20px; overflow: scroll; }
+	</style>
+</head><body>
+	<div id="root"></div>
+	<script type="text/javascript">
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// 読み込みが終わったら処理開始
+document.addEventListener("DOMContentLoaded", async event=> {
+	// 画像読み込み
+	const imageSrc1 = await new Promise(resolve => {
+		const image = document.createElement("img");
+		image.addEventListener("load", event => resolve(image));
+		image.src = "output.svg";
+	});
+
+	// 画像読み込み
+	const imageSrc2 = await new Promise(resolve => {
+		const image = document.createElement("img");
+		image.addEventListener("load", event => resolve(image));
+		image.src = "input.png";
+	});
+
+	// テキスト描画関数
+	const drawText = (canvas, context, text, isBanner) => {
+		context.font = isBanner ? "bold 16px 'sans-serif'" : "bold 32px 'sans-serif'";
+		context.lineCap = "round";
+		context.lineWidth = isBanner ? 2 : 3;
+		context.textBaseline = isBanner ? "alphabetic" : "middle";
+		context.strokeStyle = "white";
+		context.fillStyle = "black";
+		const textWidth = Math.ceil(context.measureText(text).width);
+		const x = isBanner ? canvas.width - textWidth - 3 : (canvas.width - textWidth) / 2;
+		const y = isBanner ? canvas.height - 3 : canvas.height / 2;
+		context.strokeText(text, x, y);
+		context.fillText(text, x, y);
+	};
+
+	// ホームページバナー
+	document.getElementById("root").appendChild((() => {
+		const canvas = document.createElement("canvas");
+		canvas.width = 64;
+		canvas.height = 32;
+		const context = canvas.getContext("2d");
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		// 制作物描画
+		const marginX = 0;
+		const marginY = 0;
+		const srcw = imageSrc1.width - 120;
+		const srch = srcw / 2;
+		const srcx = Math.floor((imageSrc1.width - srcw) / 2);
+		const srcy = Math.floor((imageSrc1.height - srch) / 2) - 20;
+		const dstw = canvas.width;
+		const dsth = canvas.height;
+		context.drawImage(imageSrc1, srcx, srcy, srcw, srch, 0, 0, dstw, dsth);
+
+		drawText(canvas, context, "NFT", true);
+		return canvas;
+	})());
+
+	// opensea ロゴ (logo image)
+	document.getElementById("root").appendChild((() => {
+		const canvas = document.createElement("canvas");
+		canvas.width = 300;
+		canvas.height = 300;
+		const context = canvas.getContext("2d");
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		// 制作物描画
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		const margin = 60;
+		const srcx = margin;
+		const srcy = margin;
+		const srcw = imageSrc1.width - margin * 2;
+		const srch = imageSrc1.height - margin * 2;
+		const dstw = canvas.width;
+		const dsth = canvas.height;
+		context.drawImage(imageSrc1, srcx, srcy, srcw, srch, 0, 0, dstw, dsth);
+
+		//drawText(canvas, context, "forgery", false);
+		return canvas;
+	})());
+
+	// opensea フィーチャー (featured image)
+	document.getElementById("root").appendChild((() => {
+		const canvas = document.createElement("canvas");
+		canvas.width = 600;
+		canvas.height = 400;
+		const context = canvas.getContext("2d");
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		// 元画像描画
+		context.drawImage(imageSrc2, 0, 0, imageSrc2.width, imageSrc2.height, 0, 0, canvas.height, canvas.height);
+
+		// 制作物描画
+		for (let i = 0; i < 5; i++) {
+			const ratio = 1 - i / (5 - 1);
+			const scale = 1.0 - 0.4 * ratio;
+			context.save();
+			context.globalAlpha = (1 - ratio) * (1 - ratio);
+			context.translate(canvas.width - canvas.height + 30 - ratio * 150, 0);
+			context.translate(canvas.height / 2, canvas.height / 2);
+			context.scale(scale, scale);
+			context.translate(-canvas.height / 2, -canvas.height / 2);
+			context.drawImage(imageSrc1, 0, 0, imageSrc1.width, imageSrc1.height, 0, 0, canvas.height, canvas.height);
+			context.restore();
+		}
+
+		//drawText(canvas, context, "forgery", false);
+		return canvas;
+	})());
+
+	// opensea バナー (banner image)
+	document.getElementById("root").appendChild((() => {
+		const canvas = document.createElement("canvas");
+		canvas.width = 1400;
+		canvas.height = 400;
+		const context = canvas.getContext("2d");
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		// 元画像描画
+		for (let i = 0; i < 6; i++) {
+			const ratio = 1 - i / (6 - 1);
+			const scale = 0.8 + 0.3 * ratio;
+			context.save();
+			context.globalAlpha = (1 - ratio) * (1 - ratio);
+			context.translate(canvas.width / 2 - 80 - canvas.height, 0);
+			context.translate(canvas.height / 2, canvas.height / 2);
+			context.rotate((5 + ratio * -40) * Math.PI / 180);
+			context.scale(scale, scale);
+			context.translate(-canvas.height / 2, -canvas.height / 2);
+			context.drawImage(imageSrc2, 0, 0, imageSrc2.width, imageSrc2.height, 0, 0, canvas.height, canvas.height);
+			context.restore();
+		}
+
+		// 制作物描画
+		for (let i = 0; i < 10; i++) {
+			const ratio = 1 - i / (10 - 1);
+			const scale = 0.8 - 0.5 * ratio;
+			context.save();
+			context.globalAlpha = (1 - ratio) * (1 - ratio);
+			context.translate(canvas.width / 2 + 80 - ratio * 500, 0);
+			context.translate(canvas.height / 2, canvas.height / 2);
+			context.rotate((-30 + ratio * 90) * Math.PI / 180);
+			context.scale(scale, scale);
+			context.translate(-canvas.height / 2, -canvas.height / 2);
+			context.drawImage(imageSrc1, 0, 0, imageSrc1.width, imageSrc1.height, 0, 0, canvas.height, canvas.height);
+			context.restore();
+		}
+
+		//drawText(canvas, context, "forgery", false);
+		return canvas;
+	})());
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	</script>
+</body></html>
