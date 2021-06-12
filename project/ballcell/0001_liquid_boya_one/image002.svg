@@ -1,0 +1,896 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="180" height="180">
+	<g id="partsList"><circle cx="90" cy="90" r="50" fill="black"></circle></g>
+	<script type="text/javascript"><![CDATA[
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// create zero vector ゼロベクトルの作成
+const vector4CreateZero = (dst = {}) => {
+	dst.x = 0;
+	dst.y = 0;
+	dst.z = 0;
+	dst.w = 0;
+	return dst;
+};
+
+// create identity matrix 単位行列の作成
+const matri33CreateIdentity = (dst = {}) => {
+	dst.m11 = 1;
+	dst.m12 = 0;
+	dst.m13 = 0;
+	dst.m21 = 0;
+	dst.m22 = 1;
+	dst.m23 = 0;
+	dst.m31 = 0;
+	dst.m32 = 0;
+	dst.m33 = 1;
+	return dst;
+};
+
+// create copy matrix 複製行列の作成
+const matrix33CreateCopy = (dst, src) => {
+	if (dst === undefined) { dst = {}; }
+	dst.m11 = src.m11;
+	dst.m12 = src.m12;
+	dst.m13 = src.m13;
+	dst.m21 = src.m21;
+	dst.m22 = src.m22;
+	dst.m23 = src.m23;
+	dst.m31 = src.m31;
+	dst.m32 = src.m32;
+	dst.m33 = src.m33;
+	return dst;
+};
+
+// create inverse matrix 逆行列の作成
+const matrix33CreateInverse = (dst, src) => {
+	if (dst === undefined) { dst = {}; }
+	const srcm11 = src.m11;
+	const srcm12 = src.m12;
+	const srcm13 = src.m13;
+	const srcm21 = src.m21;
+	const srcm22 = src.m22;
+	const srcm23 = src.m23;
+	const srcm31 = src.m31;
+	const srcm32 = src.m32;
+	const srcm33 = src.m33;
+	const dstm11 = srcm22 * srcm33 - srcm23 * srcm32;
+	const dstm21 = srcm23 * srcm31 - srcm21 * srcm33;
+	const dstm31 = srcm21 * srcm32 - srcm22 * srcm31;
+	const det = srcm11 * dstm11 + srcm12 * dstm21 + srcm13 * dstm31;
+	const lowerLimit = 0.0000001;
+	if (-lowerLimit < det && det < lowerLimit) { return matri33CreateIdentity(dst); }
+	dst.m11 = dstm11 / det;
+	dst.m12 = (srcm13 * srcm32 - srcm12 * srcm33) / det;
+	dst.m13 = (srcm12 * srcm23 - srcm13 * srcm22) / det;
+	dst.m21 = dstm21 / det;
+	dst.m22 = (srcm11 * srcm33 - srcm13 * srcm31) / det;
+	dst.m23 = (srcm13 * srcm21 - srcm11 * srcm23) / det;
+	dst.m31 = dstm31 / det;
+	dst.m32 = (srcm12 * srcm31 - srcm11 * srcm32) / det;
+	dst.m33 = (srcm11 * srcm22 - srcm12 * srcm21) / det;
+	return dst;
+};
+
+// multiply matrix 行列の掛け合わせ
+const matrix33Multiply = (dst, src1, src2) => {
+	const src1m11 = src1.m11;
+	const src1m12 = src1.m12;
+	const src1m13 = src1.m13;
+	const src1m21 = src1.m21;
+	const src1m22 = src1.m22;
+	const src1m23 = src1.m23;
+	const src1m31 = src1.m31;
+	const src1m32 = src1.m32;
+	const src1m33 = src1.m33;
+	const src2m11 = src2.m11;
+	const src2m12 = src2.m12;
+	const src2m13 = src2.m13;
+	const src2m21 = src2.m21;
+	const src2m22 = src2.m22;
+	const src2m23 = src2.m23;
+	const src2m31 = src2.m31;
+	const src2m32 = src2.m32;
+	const src2m33 = src2.m33;
+	dst.m11 = src2m11 * src1m11 + src2m12 * src1m21 + src2m13 * src1m31;
+	dst.m12 = src2m11 * src1m12 + src2m12 * src1m22 + src2m13 * src1m32;
+	dst.m13 = src2m11 * src1m13 + src2m12 * src1m23 + src2m13 * src1m33;
+	dst.m21 = src2m21 * src1m11 + src2m22 * src1m21 + src2m23 * src1m31;
+	dst.m22 = src2m21 * src1m12 + src2m22 * src1m22 + src2m23 * src1m32;
+	dst.m23 = src2m21 * src1m13 + src2m22 * src1m23 + src2m23 * src1m33;
+	dst.m31 = src2m31 * src1m11 + src2m32 * src1m21 + src2m33 * src1m31;
+	dst.m32 = src2m31 * src1m12 + src2m32 * src1m22 + src2m33 * src1m32;
+	dst.m33 = src2m31 * src1m13 + src2m32 * src1m23 + src2m33 * src1m33;
+};
+
+// create identity matrix 単位行列の作成
+const matrix44CreateIdentity = (dst = {}) => {
+	dst.m11 = 1;
+	dst.m12 = 0;
+	dst.m13 = 0;
+	dst.m14 = 0;
+	dst.m21 = 0;
+	dst.m22 = 1;
+	dst.m23 = 0;
+	dst.m24 = 0;
+	dst.m31 = 0;
+	dst.m32 = 0;
+	dst.m33 = 1;
+	dst.m34 = 0;
+	dst.m41 = 0;
+	dst.m42 = 0;
+	dst.m43 = 0;
+	dst.m44 = 1;
+	return dst;
+};
+
+// create copy matrix 複製行列の作成
+const matrix44CreateCopy = (dst, src) => {
+	if (dst === undefined) { dst = {}; }
+	dst.m11 = src.m11;
+	dst.m12 = src.m12;
+	dst.m13 = src.m13;
+	dst.m14 = src.m14;
+	dst.m21 = src.m21;
+	dst.m22 = src.m22;
+	dst.m23 = src.m23;
+	dst.m24 = src.m24;
+	dst.m31 = src.m31;
+	dst.m32 = src.m32;
+	dst.m33 = src.m33;
+	dst.m34 = src.m34;
+	dst.m41 = src.m41;
+	dst.m42 = src.m42;
+	dst.m43 = src.m43;
+	dst.m44 = src.m44;
+	return dst;
+};
+
+// multiply matrix 行列の掛け合わせ
+const matrix44Multiply = (dst, src1, src2) => {
+	const src1m11 = src1.m11;
+	const src1m12 = src1.m12;
+	const src1m13 = src1.m13;
+	const src1m14 = src1.m14;
+	const src1m21 = src1.m21;
+	const src1m22 = src1.m22;
+	const src1m23 = src1.m23;
+	const src1m24 = src1.m24;
+	const src1m31 = src1.m31;
+	const src1m32 = src1.m32;
+	const src1m33 = src1.m33;
+	const src1m34 = src1.m34;
+	const src1m41 = src1.m41;
+	const src1m42 = src1.m42;
+	const src1m43 = src1.m43;
+	const src1m44 = src1.m44;
+	const src2m11 = src2.m11;
+	const src2m12 = src2.m12;
+	const src2m13 = src2.m13;
+	const src2m14 = src2.m14;
+	const src2m21 = src2.m21;
+	const src2m22 = src2.m22;
+	const src2m23 = src2.m23;
+	const src2m24 = src2.m24;
+	const src2m31 = src2.m31;
+	const src2m32 = src2.m32;
+	const src2m33 = src2.m33;
+	const src2m34 = src2.m34;
+	const src2m41 = src2.m41;
+	const src2m42 = src2.m42;
+	const src2m43 = src2.m43;
+	const src2m44 = src2.m44;
+	dst.m11 = src2m11 * src1m11 + src2m12 * src1m21 + src2m13 * src1m31 + src2m14 * src1m41;
+	dst.m12 = src2m11 * src1m12 + src2m12 * src1m22 + src2m13 * src1m32 + src2m14 * src1m42;
+	dst.m13 = src2m11 * src1m13 + src2m12 * src1m23 + src2m13 * src1m33 + src2m14 * src1m43;
+	dst.m14 = src2m11 * src1m14 + src2m12 * src1m24 + src2m13 * src1m34 + src2m14 * src1m44;
+	dst.m21 = src2m21 * src1m11 + src2m22 * src1m21 + src2m23 * src1m31 + src2m24 * src1m41;
+	dst.m22 = src2m21 * src1m12 + src2m22 * src1m22 + src2m23 * src1m32 + src2m24 * src1m42;
+	dst.m23 = src2m21 * src1m13 + src2m22 * src1m23 + src2m23 * src1m33 + src2m24 * src1m43;
+	dst.m24 = src2m21 * src1m14 + src2m22 * src1m24 + src2m23 * src1m34 + src2m24 * src1m44;
+	dst.m31 = src2m31 * src1m11 + src2m32 * src1m21 + src2m33 * src1m31 + src2m34 * src1m41;
+	dst.m32 = src2m31 * src1m12 + src2m32 * src1m22 + src2m33 * src1m32 + src2m34 * src1m42;
+	dst.m33 = src2m31 * src1m13 + src2m32 * src1m23 + src2m33 * src1m33 + src2m34 * src1m43;
+	dst.m34 = src2m31 * src1m14 + src2m32 * src1m24 + src2m33 * src1m34 + src2m34 * src1m44;
+	dst.m41 = src2m41 * src1m11 + src2m42 * src1m21 + src2m43 * src1m31 + src2m44 * src1m41;
+	dst.m42 = src2m41 * src1m12 + src2m42 * src1m22 + src2m43 * src1m32 + src2m44 * src1m42;
+	dst.m43 = src2m41 * src1m13 + src2m42 * src1m23 + src2m43 * src1m33 + src2m44 * src1m43;
+	dst.m44 = src2m41 * src1m14 + src2m42 * src1m24 + src2m43 * src1m34 + src2m44 * src1m44;
+};
+
+// multiply translate matrix 平行移動行列の掛け合わせ
+const matrix44MultiplyTranslate = (mat, x, y, z) => {
+	mat.m41 += mat.m11 * x + mat.m21 * y + mat.m31 * z;
+	mat.m42 += mat.m12 * x + mat.m22 * y + mat.m32 * z;
+	mat.m43 += mat.m13 * x + mat.m23 * y + mat.m33 * z;
+	mat.m44 += mat.m14 * x + mat.m24 * y + mat.m34 * z;
+};
+
+// multiply scale matrix 拡大縮小行列の掛け合わせ
+const matrix44MultiplyScale = (mat, x, y, z) => {
+	mat.m11 *= x;
+	mat.m12 *= x;
+	mat.m13 *= x;
+	mat.m14 *= x;
+	mat.m21 *= y;
+	mat.m22 *= y;
+	mat.m23 *= y;
+	mat.m24 *= y;
+	mat.m31 *= z;
+	mat.m32 *= z;
+	mat.m33 *= z;
+	mat.m34 *= z;
+};
+
+// multiply x-axis rotation matrix x軸中心回転行列の掛け合わせ
+const matrix44MultiplyRotationX = (mat, rot) => {
+	const c = Math.cos(rot);
+	const s = Math.sin(rot);
+	const temp21 = s * mat.m31 + c * mat.m21;
+	const temp22 = s * mat.m32 + c * mat.m22;
+	const temp23 = s * mat.m33 + c * mat.m23;
+	const temp24 = s * mat.m34 + c * mat.m24;
+	const temp31 = c * mat.m31 - s * mat.m21;
+	const temp32 = c * mat.m32 - s * mat.m22;
+	const temp33 = c * mat.m33 - s * mat.m23;
+	const temp34 = c * mat.m34 - s * mat.m24;
+	mat.m21 = temp21;
+	mat.m22 = temp22;
+	mat.m23 = temp23;
+	mat.m24 = temp24;
+	mat.m31 = temp31;
+	mat.m32 = temp32;
+	mat.m33 = temp33;
+	mat.m34 = temp34;
+};
+
+// multiply y-axis rotation matrix y軸中心回転行列の掛け合わせ
+const matrix44MultiplyRotationY = (mat, rot) => {
+	const c = Math.cos(rot);
+	const s = Math.sin(rot);
+	const temp31 = s * mat.m11 + c * mat.m31;
+	const temp32 = s * mat.m12 + c * mat.m32;
+	const temp33 = s * mat.m13 + c * mat.m33;
+	const temp34 = s * mat.m14 + c * mat.m34;
+	const temp11 = c * mat.m11 - s * mat.m31;
+	const temp12 = c * mat.m12 - s * mat.m32;
+	const temp13 = c * mat.m13 - s * mat.m33;
+	const temp14 = c * mat.m14 - s * mat.m34;
+	mat.m31 = temp31;
+	mat.m32 = temp32;
+	mat.m33 = temp33;
+	mat.m34 = temp34;
+	mat.m11 = temp11;
+	mat.m12 = temp12;
+	mat.m13 = temp13;
+	mat.m14 = temp14;
+};
+
+// multiply z-axis rotation matrix z軸中心回転行列の掛け合わせ
+const matrix44MultiplyRotationZ = (mat, rot) => {
+	const c = Math.cos(rot);
+	const s = Math.sin(rot);
+	const temp11 = s * mat.m21 + c * mat.m11;
+	const temp12 = s * mat.m22 + c * mat.m12;
+	const temp13 = s * mat.m23 + c * mat.m13;
+	const temp14 = s * mat.m24 + c * mat.m14;
+	const temp21 = c * mat.m21 - s * mat.m11;
+	const temp22 = c * mat.m22 - s * mat.m12;
+	const temp23 = c * mat.m23 - s * mat.m13;
+	const temp24 = c * mat.m24 - s * mat.m14;
+	mat.m11 = temp11;
+	mat.m12 = temp12;
+	mat.m13 = temp13;
+	mat.m14 = temp14;
+	mat.m21 = temp21;
+	mat.m22 = temp22;
+	mat.m23 = temp23;
+	mat.m24 = temp24;
+};
+
+// multiply vector by matrix 座標と行列を掛け合わせる
+const vectorTransCoord = (dst, src, mat) => {
+	const vx = src.x;
+	const vy = src.y;
+	const vz = src.z;
+	dst.x = mat.m11 * vx + mat.m21 * vy + mat.m31 * vz + mat.m41;
+	dst.y = mat.m12 * vx + mat.m22 * vy + mat.m32 * vz + mat.m42;
+	dst.z = mat.m13 * vx + mat.m23 * vy + mat.m33 * vz + mat.m43;
+	dst.w = mat.m14 * vx + mat.m24 * vy + mat.m34 * vz + mat.m44;
+};
+
+// typical ortho matrix 正射影行列の作成
+const matrix44TypicalOrtho = (mat, width, height) => {
+	const left = 0;
+	const right = width;
+	const bottom = 0;
+	const top = height;
+	const near = 1;
+	const far = 100;
+
+	mat.m11 = 2 / (right - left);
+	mat.m12 = 0;
+	mat.m13 = 0;
+	mat.m14 = 0;
+
+	mat.m21 = 0;
+	mat.m22 = 2 / (top - bottom);
+	mat.m23 = 0;
+	mat.m24 = 0;
+
+	mat.m31 = 0;
+	mat.m32 = 0;
+	mat.m33 = 2 / (near - far);
+	mat.m34 = 0;
+
+	mat.m41 = (right + left) / (left - right);
+	mat.m42 = (top + bottom) / (bottom - top);
+	mat.m43 = (near + far) / (near - far);
+	mat.m44 = 1;
+
+	// transformation 領域変換 [-1 ～ 1, -1 ～ 1] -> [0 ～ w, 0 ～ h]
+	const src1m11 = width / 2;
+	const src1m22 = - height / 2;
+	const src1m41 = width / 2;
+	const src1m42 = height / 2;
+	const src2m11 = mat.m11;
+	const src2m22 = mat.m22;
+	const src2m41 = mat.m41;
+	const src2m42 = mat.m42;
+	const src2m44 = mat.m44;
+	mat.m11 = src2m11 * src1m11;
+	mat.m22 = src2m22 * src1m22;
+	mat.m41 = src2m41 * src1m11 + src2m44 * src1m41;
+	mat.m42 = src2m42 * src1m22 + src2m44 * src1m42;
+};
+
+// typical frustum matrix 射影行列の作成
+const matrix44TypicalFrustum = (mat, width, height) => {
+	let w = 1;
+	let h = 1;
+	if (width > height) { w = width / height; }
+	if (width < height) { h = height / width; }
+
+	const left = - w / 2;
+	const right = w / 2;
+	const bottom = - h / 2;
+	const top = h / 2;
+	const near = 1;
+	const far = 100;
+
+	mat.m11 = 2 * near / (right - left);
+	mat.m12 = 0;
+	mat.m13 = 0;
+	mat.m14 = 0;
+
+	mat.m21 = 0;
+	mat.m22 = 2 * near / (top - bottom);
+	mat.m23 = 0;
+	mat.m24 = 0;
+
+	mat.m31 = (right + left) / (right - left);
+	mat.m32 = (top + bottom) / (top - bottom);
+	mat.m33 = (near + far) / (near - far);
+	mat.m34 = -1;
+
+	mat.m41 = 0;
+	mat.m42 = 0;
+	mat.m43 = 2 * near * far / (near - far);
+	mat.m44 = 0;
+
+	// transformation 領域変換 [-1 ～ 1, -1 ～ 1] -> [0 ～ w, 0 ～ h]
+	const src1m11 = width / 2;
+	const src1m22 = - height / 2;
+	const src1m41 = width / 2;
+	const src1m42 = height / 2;
+	const src2m11 = mat.m11;
+	const src2m22 = mat.m22;
+	const src2m31 = mat.m31;
+	const src2m32 = mat.m32;
+	const src2m34 = mat.m34;
+	mat.m11 = src2m11 * src1m11;
+	mat.m22 = src2m22 * src1m22;
+	mat.m31 = src2m31 * src1m11 + src2m34 * src1m41;
+	mat.m32 = src2m32 * src1m22 + src2m34 * src1m42;
+};
+
+// typical look at matrix 視野変換行列の作成
+const matrix44TypicalLookAt = (mat, eyeX, eyeY, eyeZ) => {
+	const centerX = 0.0;
+	const centerY = 0.0;
+	const centerZ = 0.0;
+	const upX = 0.0;
+	const upY = 1.0;
+	const upZ = 0.0;
+
+	let zx = eyeX - centerX;
+	let zy = eyeY - centerY;
+	let zz = eyeZ - centerZ;
+	const zr = Math.sqrt(zx * zx + zy * zy + zz * zz);
+	const zri = 1 / zr;
+	zx *= zri;
+	zy *= zri;
+	zz *= zri;
+
+	let xx = upY * zz - upZ * zy;
+	let xy = upZ * zx - upX * zz;
+	let xz = upX * zy - upY * zx;
+	const xr = Math.sqrt(xx * xx + xy * xy + xz * xz);
+	const xri = Math.abs(xr) > 0.00001 ? 1 / xr : 0;
+	xx *= xri;
+	xy *= xri;
+	xz *= xri;
+
+	let yx = zy * xz - zz * xy;
+	let yy = zz * xx - zx * xz;
+	let yz = zx * xy - zy * xx;
+	let yr = Math.sqrt(yx * yx + yy * yy + yz * yz);
+	const yri = Math.abs(yr) > 0.00001 ? 1 / yr : 0;
+	yx *= yri;
+	yy *= yri;
+	yz *= yri;
+
+	mat.m11 = xx;
+	mat.m12 = yx;
+	mat.m13 = zx;
+	mat.m14 = 0;
+	mat.m21 = xy;
+	mat.m22 = yy;
+	mat.m23 = zy;
+	mat.m24 = 0;
+	mat.m31 = xz;
+	mat.m32 = yz;
+	mat.m33 = zz;
+	mat.m34 = 0;
+	mat.m41 = -(xx * eyeX + xy * eyeY + xz * eyeZ);
+	mat.m42 = -(yx * eyeX + yy * eyeY + yz * eyeZ);
+	mat.m43 = -(zx * eyeX + zy * eyeY + zz * eyeZ);
+	mat.m44 = 1;
+};
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// ballObject ボール管理クラス
+class BallObject {
+	constructor() {
+		this.position = vector4CreateZero();
+		this.balls = []; // { part: { vector: { x: number; y: number; z: number; }; r: number; color: string; isOuter: boolean; }; canvas: { x: number; y: number; z: number; r: number; }; }[]
+		this.rotate = 0;
+		this.scale = 1;
+		this.zIndex = 0;
+		this.isPerspective = false;
+		this.tempMat01 = matrix44CreateIdentity();
+		this.tempMat02 = matrix44CreateIdentity();
+		this.tempVec01 = vector4CreateZero();
+		this.tempVec02 = vector4CreateZero();
+	}
+
+	// calculate 計算
+	calc() {}
+
+	// draw preparation 描画準備
+	drawPrep(matrixProjection, matrixWorld) {
+		// find origin position on screen 原点の画面上の位置を求める
+		matrix44Multiply(this.tempMat01, matrixProjection, matrixWorld);
+		vectorTransCoord(this.tempVec01, this.position, this.tempMat01);
+		this.zIndex = this.tempVec01.z / this.tempVec01.w;
+
+		// calculate scale 逆行列に単位ベクトルを掛け合わせた時のノルムの逆数からそれぞれの軸の拡大率を求める
+		matrix33CreateInverse(this.tempMat02, this.tempMat01);
+		const scaleMatrixX = 1 / Math.sqrt(this.tempMat02.m11 * this.tempMat02.m11 + this.tempMat02.m12 * this.tempMat02.m12 + this.tempMat02.m13 * this.tempMat02.m13);
+		const scaleMatrixY = 1 / Math.sqrt(this.tempMat02.m21 * this.tempMat02.m21 + this.tempMat02.m22 * this.tempMat02.m22 + this.tempMat02.m23 * this.tempMat02.m23);
+		const scaleRadius = this.scale * (scaleMatrixX + scaleMatrixY) / 2;
+
+		if (this.isPerspective) {
+			// multiply position and rotation and scale matrix 行列に位置と向きと大きさを示す行列を掛け合わせる
+			matrix44MultiplyTranslate(this.tempMat01, this.position.x, this.position.y, this.position.z);
+			matrix44MultiplyRotationY(this.tempMat01, this.rotate);
+			matrix44MultiplyScale(this.tempMat01, this.scale, this.scale, this.scale);
+			// calculate position of ball by perspective projection それぞれのボールの位置を透視投影で計算
+			for (let i = 0; i < this.balls.length; i++) {
+				const ball = this.balls[i];
+				vectorTransCoord(this.tempVec02, ball.part.vector, this.tempMat01);
+				ball.canvas.x = this.tempVec02.x / this.tempVec02.w;
+				ball.canvas.y = this.tempVec02.y / this.tempVec02.w;
+				ball.canvas.z = this.tempVec02.z / this.tempVec02.w;
+				ball.canvas.r = Math.abs(scaleRadius * ball.part.r / this.tempVec02.w);
+			}
+		} else {
+			// calculate scale 射影行列の逆行列に単位ベクトルを掛け合わせた時のノルムの逆数からそれぞれの軸の拡大率を求める
+			matrix33CreateInverse(this.tempMat01, matrixProjection);
+			const scaleProjectionX = (this.tempMat01.m11 < 0 ? -1 : 1) / Math.sqrt(this.tempMat01.m11 * this.tempMat01.m11 + this.tempMat01.m12 * this.tempMat01.m12 + this.tempMat01.m13 * this.tempMat01.m13);
+			const scaleProjectionY = (this.tempMat01.m22 < 0 ? -1 : 1) / Math.sqrt(this.tempMat01.m21 * this.tempMat01.m21 + this.tempMat01.m22 * this.tempMat01.m22 + this.tempMat01.m23 * this.tempMat01.m23);
+			const scaleProjectionZ = (this.tempMat01.m33 < 0 ? -1 : 1) / Math.sqrt(this.tempMat01.m31 * this.tempMat01.m31 + this.tempMat01.m32 * this.tempMat01.m32 + this.tempMat01.m33 * this.tempMat01.m33);
+			// multiply rotation and scale matrix 回転拡大成分のみ抽出したワールド行列に向きと大きさを示す行列を掛け合わせる
+			matrix44CreateIdentity(this.tempMat01);
+			matrix33CreateCopy(this.tempMat01, matrixWorld);
+			matrix44MultiplyRotationY(this.tempMat01, this.rotate);
+			matrix44MultiplyScale(this.tempMat01, this.scale, this.scale, this.scale);
+			// calculate position of ball by perspective projection それぞれのボールの位置を正射影で計算
+			for (let i = 0; i < this.balls.length; i++) {
+				const ball = this.balls[i];
+				vectorTransCoord(this.tempVec02, ball.part.vector, this.tempMat01);
+				ball.canvas.x = (this.tempVec01.x + this.tempVec02.x * scaleProjectionX) / this.tempVec01.w;
+				ball.canvas.y = (this.tempVec01.y + this.tempVec02.y * scaleProjectionY) / this.tempVec01.w;
+				ball.canvas.z = (this.tempVec01.z + this.tempVec02.z * scaleProjectionZ) / this.tempVec01.w;
+				ball.canvas.r = Math.abs(scaleRadius * ball.part.r / this.tempVec01.w);
+			}
+		}
+	}
+
+	// draw sort 描画順並替
+	drawSort() {
+		this.balls.sort((ball1, ball2) => ball2.canvas.z - ball1.canvas.z);
+	}
+
+	// draw ball svg要素に値を流し込む
+	drawBall(elementCircleSet) {
+		for (let i = 0; i < this.balls.length; i++) { elementCircleSet(this.balls[i], true); }
+		for (let i = 0; i < this.balls.length; i++) { elementCircleSet(this.balls[i], false); }
+	}
+}
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// puppet パペット型ボール管理クラス
+class Puppet extends BallObject {
+	constructor(options) {
+		const optionsStep = (value => Number.isFinite(value) ? value : 0)(options.step);
+		const optionsColor = (value => typeof value === "string" ? value : "red")(options.color);
+		const optionsPoints = (value => Array.isArray(value) ? value : null)(options.points);
+		super();
+
+		// for calculate 計算用パーツ
+		this.partFotR = { vector: vector4CreateZero(), r: 0.3, color: optionsColor, isOuter: true, };
+		this.partFotL = { vector: vector4CreateZero(), r: 0.3, color: optionsColor, isOuter: true, };
+		this.partBody = { vector: vector4CreateZero(), r: 0.5, color: optionsColor, isOuter: true, };
+		this.partHndR = { vector: vector4CreateZero(), r: 0.2, color: optionsColor, isOuter: true, };
+		this.partHndL = { vector: vector4CreateZero(), r: 0.2, color: optionsColor, isOuter: true, };
+		this.partHeadList = Array(4).fill(0).map(() => ({ vector: vector4CreateZero(), r: 0.6, color: optionsColor, isOuter: true, }));
+		this.partEyeRList = Array(4).fill(0).map(() => ({ vector: vector4CreateZero(), r: 0.1, color: "black", isOuter: false, }));
+		this.partEyeLList = Array(4).fill(0).map(() => ({ vector: vector4CreateZero(), r: 0.1, color: "black", isOuter: false, }));
+		for (let i = 0; i < this.partHeadList.length; i++) { this.partHeadList [i].r = 0.6 - 0.4 * i / (this.partHeadList.length - 1); }
+
+		// for draw 描画用パーツ
+		this.balls.push({ part: this.partFotR, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partFotL, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partBody, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partHndR, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls.push({ part: this.partHndL, canvas: { x: 0, y: 0, z: 0, r: 0, }, });
+		this.balls = this.balls.concat(this.partHeadList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0, }, })));
+		this.balls = this.balls.concat(this.ballEyeRList = this.partEyeRList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0, }, })));
+		this.balls = this.balls.concat(this.ballEyeLList = this.partEyeLList.map(part => ({ part, canvas: { x: 0, y: 0, z: 0, r: 0, }, })));
+
+		// status weight 状態の重み値
+		this.statusWeightStand = 0.0;
+		this.statusWeightRun = 1.0;
+
+		// body tilt 体のx軸角度 (calc関数で計算)
+		this.trigHead1Cos = 0;
+		this.trigHead1Sin = 0;
+		// head angle 頭のトンガリの角度
+		this.trigHead2Cos = Math.cos(150 * Math.PI / 180);
+		this.trigHead2Sin = Math.sin(150 * Math.PI / 180);
+		// head angle 顔の垂直角度
+		this.trigHead3Cos = Math.cos(0 * Math.PI / 180);
+		this.trigHead3Sin = Math.sin(0 * Math.PI / 180);
+		// head angle 顔の水平角度
+		this.trigHead4Cos = Math.cos(0 * Math.PI / 180);
+		this.trigHead4Sin = Math.sin(0 * Math.PI / 180);
+		// hand angle 手のz軸角度
+		this.trigHndR1Cos = Math.cos(0 * Math.PI / 180);
+		this.trigHndR1Sin = Math.sin(0 * Math.PI / 180);
+		this.trigHndL1Cos = Math.cos(0 * Math.PI / 180);
+		this.trigHndL1Sin = Math.sin(0 * Math.PI / 180);
+		// hand swing 手のy軸振り (calc関数で計算)
+		this.trigHndR2Cos = 0;
+		this.trigHndR2Sin = 0;
+		this.trigHndL2Cos = 0;
+		this.trigHndL2Sin = 0;
+		// foot angle 足のz軸角度
+		this.trigFotR1Cos = Math.cos(60 * Math.PI / 180);
+		this.trigFotR1Sin = Math.sin(60 * Math.PI / 180);
+		this.trigFotL1Cos = Math.cos(60 * Math.PI / 180);
+		this.trigFotL1Sin = Math.sin(60 * Math.PI / 180);
+		// foot swing 足のx軸振り (calc関数で計算)
+		this.trigFotR2Cos = 0;
+		this.trigFotR2Sin = 0;
+		this.trigFotL2Cos = 0;
+		this.trigFotL2Sin = 0;
+		// eye angle 目のy軸開き
+		this.trigEye01Cos = Math.cos(15 * Math.PI / 180);
+		this.trigEye01Sin = Math.sin(15 * Math.PI / 180);
+		// eye angle 目のz軸角度
+		this.trigEye02Cos = Math.cos(0 * Math.PI / 180);
+		this.trigEye02Sin = Math.sin(0 * Math.PI / 180);
+
+		// step ステップ
+		this.step = optionsStep;
+
+		// lines 軌道
+		this.lines = [];
+		this.lineTotalTime = 0;
+		this.lineIsMoveFirst = false;
+		if (optionsPoints !== null) {
+			for (let i = 0; i < optionsPoints.length; i++) {
+				const point = optionsPoints[i];
+				const x = optionsPoints[(i + 1) % optionsPoints.length].x;
+				const z = optionsPoints[(i + 1) % optionsPoints.length].z;
+				const dx = point.x - x;
+				const dz = point.z - z;
+				const time = Math.floor(Math.sqrt(dx * dx + dz * dz) * 20);
+				this.lines.push({ x0: point.x, z0: point.z, x1: x, z1: z, time, });
+				this.lineTotalTime += time;
+			}
+			this.lineIsMoveFirst = true;
+		}
+	}
+
+	// calculate 計算
+	calc() {
+		this.step++;
+
+		// calculate position and rotate 位置と角度の計算
+		if (this.lines.length > 0) {
+			let step = this.step % this.lineTotalTime;
+			for (let i = 0; i < this.lines.length; i++) {
+				const line = this.lines[i];
+				if (step - line.time > 0) {
+					step -= line.time;
+				} else {
+					this.position.x = line.x0 + (step / line.time) * (line.x1 - line.x0);
+					this.position.z = line.z0 + (step / line.time) * (line.z1 - line.z0);
+					const rotate = Math.PI + Math.atan2(line.x1 -  line.x0, line.z1 -  line.z0);
+					if (this.lineIsMoveFirst) {
+						this.rotate = rotate;
+						this.lineIsMoveFirst = false;
+					} else {
+						let dr = rotate - this.rotate;
+						while (dr < -Math.PI) { dr += Math.PI * 2; }
+						while (dr >  Math.PI) { dr -= Math.PI * 2; }
+						this.rotate += 0.2 * dr;
+					}
+					break;
+				}
+			}
+		}
+
+		// update status weight 重みの更新
+		this.statusWeightStand *= 0.9;
+		this.statusWeightRun *= 0.9;
+		if (this.statusWeightStand < 0.1) { this.statusWeightStand = 0.0; }
+		if (this.statusWeightRun < 0.1) { this.statusWeightRun = 0.0; }
+		const statusWeightRemain = 1 - (this.statusWeightStand + this.statusWeightRun);
+		if (false) { this.statusWeightStand += statusWeightRemain; }
+		if (true) { this.statusWeightRun += statusWeightRemain; }
+
+		// body tilt 体のx軸角度
+		const theta01 = (0 * this.statusWeightStand + 30 * this.statusWeightRun) * Math.PI / 180;
+		this.trigHead1Cos = Math.cos(theta01);
+		this.trigHead1Sin = Math.sin(theta01);
+		// hand swing 手のy軸振り
+		const swing = Math.sin((9 * this.step) * Math.PI / 180);
+		const theta02 = (0 * this.statusWeightStand + 30 * swing * this.statusWeightRun) * Math.PI / 180;
+		this.trigHndR2Cos = Math.cos(theta02);
+		this.trigHndR2Sin = Math.sin(theta02);
+		this.trigHndL2Cos = this.trigHndR2Cos;
+		this.trigHndL2Sin = -this.trigHndR2Sin;
+		// foot swing 足のx軸振り
+		this.trigFotR2Cos = this.trigHndL2Cos;
+		this.trigFotR2Sin = this.trigHndL2Sin;
+		this.trigFotL2Cos = this.trigHndR2Cos;
+		this.trigFotL2Sin = this.trigHndR2Sin;
+		// updown 歩きの上下振動
+		const updown = this.statusWeightRun * 0.3 * Math.abs(swing);
+
+		// body 体
+		const rf = this.partFotR.r + (this.partBody.r + this.partFotR.r * 0.7) * this.trigFotR1Sin * this.trigFotR2Cos;
+		const lf = this.partFotL.r + (this.partBody.r + this.partFotL.r * 0.7) * this.trigFotL1Sin * this.trigFotL2Cos;
+		const rh = this.partHndR.r - (this.partBody.r + this.partHndR.r * 0.5) * this.trigHndR2Cos * this.trigHndR1Sin;
+		const lh = this.partHndL.r - (this.partBody.r + this.partHndL.r * 0.5) * this.trigHndL2Cos * this.trigHndL1Sin;
+		this.partBody.vector.x = 0.0;
+		this.partBody.vector.y = Math.max(this.partBody.r, rf, lf, rh, lh) + updown;
+		this.partBody.vector.z = 0.0;
+		// partHeadList 両足
+		this.partFotR.vector.x = this.partBody.vector.x + (this.partBody.r + this.partFotR.r * 0.7) * this.trigFotR1Cos;
+		this.partFotR.vector.y = this.partBody.vector.y - (this.partBody.r + this.partFotR.r * 0.7) * this.trigFotR1Sin * this.trigFotR2Cos;
+		this.partFotR.vector.z = this.partBody.vector.z - (this.partBody.r + this.partFotR.r * 0.7) * this.trigFotR1Sin * this.trigFotR2Sin;
+		this.partFotL.vector.x = this.partBody.vector.x - (this.partBody.r + this.partFotL.r * 0.7) * this.trigFotL1Cos;
+		this.partFotL.vector.y = this.partBody.vector.y - (this.partBody.r + this.partFotL.r * 0.7) * this.trigFotL1Sin * this.trigFotL2Cos;
+		this.partFotL.vector.z = this.partBody.vector.z - (this.partBody.r + this.partFotL.r * 0.7) * this.trigFotL1Sin * this.trigFotL2Sin;
+		// hand 両手
+		this.partHndR.vector.x = this.partBody.vector.x + (this.partBody.r + this.partHndR.r * 0.5) * this.trigHndR2Cos * this.trigHndR1Cos;
+		this.partHndR.vector.y = this.partBody.vector.y + (this.partBody.r + this.partHndR.r * 0.5) * this.trigHndR2Cos * this.trigHndR1Sin;
+		this.partHndR.vector.z = this.partBody.vector.z - (this.partBody.r + this.partHndR.r * 0.5) * this.trigHndR2Sin;
+		this.partHndL.vector.x = this.partBody.vector.x - (this.partBody.r + this.partHndL.r * 0.5) * this.trigHndL2Cos * this.trigHndL1Cos;
+		this.partHndL.vector.y = this.partBody.vector.y + (this.partBody.r + this.partHndL.r * 0.5) * this.trigHndL2Cos * this.trigHndL1Sin;
+		this.partHndL.vector.z = this.partBody.vector.z - (this.partBody.r + this.partHndL.r * 0.5) * this.trigHndL2Sin;
+		// head 顔
+		const partHeadR = this.partHeadList[0].r;
+		const partHeadX1 = this.partBody.vector.x;
+		const partHeadY1 = this.partBody.vector.y + (this.partBody.r + partHeadR * 0.7) * this.trigHead1Cos;
+		const partHeadZ1 = this.partBody.vector.z - (this.partBody.r + partHeadR * 0.7) * this.trigHead1Sin;
+		const partHeadX2 = partHeadX1 + 0.8 * this.trigHead4Sin;
+		const partHeadY2 = partHeadY1 + 0.8 * this.trigHead4Cos * (this.trigHead2Sin * this.trigHead3Cos + this.trigHead2Cos * this.trigHead3Sin);
+		const partHeadZ2 = partHeadZ1 - 0.8 * this.trigHead4Cos * (this.trigHead2Cos * this.trigHead3Cos + this.trigHead2Sin * this.trigHead3Sin);
+		for (let i = 0; i < this.partHeadList.length; i++) { this.partHeadList[i].vector.x = partHeadX1 + (i / (this.partHeadList.length - 1)) * (partHeadX2 - partHeadX1); }
+		for (let i = 0; i < this.partHeadList.length; i++) { this.partHeadList[i].vector.y = partHeadY1 + (i / (this.partHeadList.length - 1)) * (partHeadY2 - partHeadY1); }
+		for (let i = 0; i < this.partHeadList.length; i++) { this.partHeadList[i].vector.z = partHeadZ1 + (i / (this.partHeadList.length - 1)) * (partHeadZ2 - partHeadZ1); }
+		// eye 目
+		const mx = (partHeadR * 0.8) * this.trigEye01Sin;
+		const my = (partHeadR * 0.8) * this.trigEye01Cos * this.trigHead3Sin;
+		const mz = (partHeadR * 0.8) * this.trigEye01Cos * this.trigHead3Cos;
+		const nx = (partHeadR * 0.3) * (this.trigEye02Sin * this.trigEye01Cos);
+		const ny = (partHeadR * 0.3) * (this.trigEye02Cos * this.trigHead3Cos + (this.trigEye02Sin * this.trigEye01Sin) * this.trigHead3Sin);
+		const nz = (partHeadR * 0.3) * (this.trigEye02Cos * -this.trigHead3Sin + (this.trigEye02Sin * this.trigEye01Sin) * this.trigHead3Cos);
+		const px = mx + nx;
+		const py = my + ny;
+		const pz = mz + nz;
+		const qx = mx - nx;
+		const qy = my - ny;
+		const qz = mz - nz;
+		const erx1 = partHeadX1 + -pz * this.trigHead4Sin + +px * this.trigHead4Cos;
+		const ery1 = partHeadY1 + +py;
+		const erz1 = partHeadZ1 + -pz * this.trigHead4Cos - +px * this.trigHead4Sin;
+		const erx2 = partHeadX1 + -qz * this.trigHead4Sin + +qx * this.trigHead4Cos;
+		const ery2 = partHeadY1 + +qy;
+		const erz2 = partHeadZ1 + -qz * this.trigHead4Cos - +qx * this.trigHead4Sin;
+		const elx1 = partHeadX1 + -pz * this.trigHead4Sin + -px * this.trigHead4Cos;
+		const ely1 = partHeadY1 + +py;
+		const elz1 = partHeadZ1 + -pz * this.trigHead4Cos - -px * this.trigHead4Sin;
+		const elx2 = partHeadX1 + -qz * this.trigHead4Sin + -qx * this.trigHead4Cos;
+		const ely2 = partHeadY1 + +qy;
+		const elz2 = partHeadZ1 + -qz * this.trigHead4Cos - -qx * this.trigHead4Sin;
+		for (let i = 0; i < this.partEyeRList.length; i++) { this.partEyeRList[i].vector.x = erx1 + (i / (this.partEyeRList.length - 1)) * (erx2 - erx1); }
+		for (let i = 0; i < this.partEyeRList.length; i++) { this.partEyeRList[i].vector.y = ery1 + (i / (this.partEyeRList.length - 1)) * (ery2 - ery1); }
+		for (let i = 0; i < this.partEyeRList.length; i++) { this.partEyeRList[i].vector.z = erz1 + (i / (this.partEyeRList.length - 1)) * (erz2 - erz1); }
+		for (let i = 0; i < this.partEyeLList.length; i++) { this.partEyeLList[i].vector.x = elx1 + (i / (this.partEyeLList.length - 1)) * (elx2 - elx1); }
+		for (let i = 0; i < this.partEyeLList.length; i++) { this.partEyeLList[i].vector.y = ely1 + (i / (this.partEyeLList.length - 1)) * (ely2 - ely1); }
+		for (let i = 0; i < this.partEyeLList.length; i++) { this.partEyeLList[i].vector.z = elz1 + (i / (this.partEyeLList.length - 1)) * (elz2 - elz1); }
+	}
+
+	// draw sort 描画順並替
+	drawSort() {
+		// same z-index to eyes 目玉は同じ深度
+		const zr = (this.ballEyeRList[0].canvas.z + this.ballEyeRList[this.ballEyeRList.length - 1].canvas.z) / 2;
+		const zl = (this.ballEyeLList[0].canvas.z + this.ballEyeLList[this.ballEyeLList.length - 1].canvas.z) / 2;
+		for (let i = 0; i < this.ballEyeRList.length; i++) { this.ballEyeRList[i].canvas.z = zr; }
+		for (let i = 0; i < this.ballEyeLList.length; i++) { this.ballEyeLList[i].canvas.z = zl; }
+		super.drawSort();
+	}
+}
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// DOMContentLoaded 処理はここから始まる
+document.addEventListener("DOMContentLoaded", event => {
+	((init, calc, draw) => {
+		// initialize 初期化
+		const params = {};
+		init(params);
+		calc(params);
+		// mainloop メインループ
+		const looper = () => {
+			calc(params);
+			draw(params);
+			window.requestAnimationFrame(looper);
+		};
+		if (true) { looper(); } else { draw(params); }
+	})(params => {
+		// ----------------------------------------------------------------
+		// init 初期化
+
+		const step = 0;
+
+		// create management svg elements svg要素の管理オブジェクト作成
+		const managementElement = (() => {
+			const elementList = [];
+			const elementListRaw = document.getElementById("partsList").getElementsByTagName("circle");
+			for (let i = 0; i < elementListRaw.length; i++) { elementList.push(elementListRaw.item(i)); }
+
+			let index = 0;
+			return {
+				reset: () => { index = 0; },
+				set: (ball, isBlack) => {
+					if (isBlack && ball.part.isOuter === false) { return; }
+					if (index >= elementList.length) {
+						for (let i = elementList.length; i <= index; i++) {
+							const element = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+							document.getElementById("partsList").appendChild(element);
+							elementList.push(element);
+						}
+					}
+					const element = elementList[index++];
+					element.setAttribute("cx", Math.round(ball.canvas.x));
+					element.setAttribute("cy", Math.round(ball.canvas.y));
+					element.setAttribute("r", Math.round(ball.canvas.r + (isBlack ? 4 : 0)));
+					element.setAttribute("fill", isBlack ? "black" : ball.part.color);
+				},
+				hide: () => {
+					for (let i = index; i < elementList.length; i++) {
+						const element = elementList[i];
+						element.setAttribute("r", 0);
+					}
+				},
+			};
+		})();
+
+		// init ball puppets パペットの描画
+		const puppets = [];
+		puppets.push(new Puppet({ step: step - 30, color: "red", }));
+
+		params.step = step;
+		params.tempMat01 = matrix44CreateIdentity();
+		params.tempMat02 = matrix44CreateIdentity();
+		params.managementElement = managementElement;
+		params.ballObjects = [].concat(puppets);
+
+		// ----------------------------------------------------------------
+	}, params => {
+		// ----------------------------------------------------------------
+		// calc 計算
+
+		params.step++;
+
+		// calculate ball ボールの計算
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].calc(); }
+
+		// ----------------------------------------------------------------
+	}, params => {
+		// ----------------------------------------------------------------
+		// draw 描画
+
+		// calculate world matrix 行列の計算
+		const svgWidth = parseInt(document.getElementsByTagName("svg").item(0).getAttribute("width"), 10);
+		const svgHeight = parseInt(document.getElementsByTagName("svg").item(0).getAttribute("height"), 10);
+		if (false) {
+			matrix44TypicalOrtho(params.tempMat01, svgWidth, svgHeight);
+			matrix44CreateIdentity(params.tempMat02);
+			params.ballObjects[0].position.x = 90;
+			params.ballObjects[0].position.y = 60;
+			params.ballObjects[0].position.z = 0;
+			params.ballObjects[0].rotate = (210 - params.step) * Math.PI / 180;
+			params.ballObjects[0].scale = 30;
+		} else {
+			matrix44TypicalFrustum(params.tempMat01, svgWidth, svgHeight);
+			const eyeX = 5 * Math.cos(10 * Math.PI / 180) * Math.cos((90 - params.step) * Math.PI / 180);
+			const eyeY = 5 * Math.sin(10 * Math.PI / 180);
+			const eyeZ = 5 * Math.cos(10 * Math.PI / 180) * Math.sin((90 - params.step) * Math.PI / 180);
+			matrix44TypicalLookAt(params.tempMat02, eyeX, eyeY, eyeZ);
+			matrix44MultiplyTranslate(params.tempMat02, 0, -1.5, 0);
+			params.ballObjects[0].position.x = 0;
+			params.ballObjects[0].position.y = 0;
+			params.ballObjects[0].position.z = 0;
+			params.ballObjects[0].rotate = 210 * Math.PI / 180;
+			params.ballObjects[0].scale = 1;
+		}
+
+		// draw ball prep ボール要素の描画準備
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawPrep(params.tempMat01, params.tempMat02); }
+
+		// sort ball ボールの並べ替え
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawSort(); }
+		params.ballObjects.sort((ballObject1, ballObject2) => ballObject2.zIndex - ballObject1.zIndex);
+
+		// draw ball ボールの描画
+		params.managementElement.reset();
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawBall(params.managementElement.set); }
+		params.managementElement.hide();
+
+		// ----------------------------------------------------------------
+	});
+});
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+	]]></script>
+</svg>
