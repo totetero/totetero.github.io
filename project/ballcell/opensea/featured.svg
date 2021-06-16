@@ -2208,6 +2208,37 @@ class Puppet extends BallObject {
 	}
 }
 
+// featuredPuppet 促進用パペット型ボール管理クラス
+class FeaturedPuppet extends Puppet {
+	constructor(options) {
+		const optionsIndex = (value => Number.isFinite(value) ? value : 0)(options.index);
+		const optionsRowMax = (value => Number.isFinite(value) ? value : 0)(options.rowMax);
+		const row = Math.floor(optionsIndex % optionsRowMax);
+		const col = Math.floor(optionsIndex / optionsRowMax);
+		let color = "red";
+		if (col % 2 === 0) { color = `hsl(${60 + 60 * col}, 100%, ${Math.round(100 * row / (optionsRowMax - 1))}%)`; }
+		if (col % 2 === 1) { color = `hsl(${60 + 60 * col}, 100%, ${Math.round(100 * row / (optionsRowMax - 2))}%)`; }
+		super(Object.assign(options, { color, }));
+
+		const isHide = col % 2 === 1 && row === optionsRowMax - 1;
+		this.prepX = isHide ? 20 : (20 + 70 * row + (col % 2 === 0 ? 0 : 35));
+		this.prepY = isHide ? 310 : (310 - 60 * col);
+		this.prepZ = isHide ? -1 : 1;
+		this.tempMat03 = matrix44CreateIdentity();
+		this.rotate = 180 * Math.PI / 180;
+		this.scale = 30;
+	}
+
+	drawPrep(matrixProjection, matrixWorld) {
+		matrix44CreateCopy(this.tempMat03, matrixWorld);
+		matrix44MultiplyTranslate(this.tempMat03, this.prepX, this.prepY + 30, this.prepZ);
+		matrix44MultiplyRotationX(this.tempMat03, 10 * Math.PI / 180);
+		matrix44MultiplyRotationY(this.tempMat03, 30 * Math.PI / 180);
+		matrix44MultiplyTranslate(this.tempMat03, 0, -30, 0);
+		super.drawPrep(matrixProjection, this.tempMat03);
+	}
+}
+
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -2236,27 +2267,13 @@ document.addEventListener("DOMContentLoaded", event => {
 		const puppets = [];
 		const rowMax = 9;
 		const colMax = 6;
-		for (let i = 0; i < rowMax * colMax; i++) {
-			const row = Math.floor(i % rowMax);
-			const col = Math.floor(i / rowMax);
-			let color = "red";
-			if (col % 2 === 0) { color = `hsl(${60 + 60 * col}, 100%, ${Math.round(100 * row / (rowMax - 1))}%)`; }
-			if (col % 2 === 1) { color = `hsl(${60 + 60 * col}, 100%, ${Math.round(100 * row / (rowMax - 2))}%)`; }
-			const puppet = new Puppet({ step: step - 30, color, });
-			puppet.rotate = 180 * Math.PI / 180;
-			puppet.scale = 30;
-			puppets.push(puppet);
-		}
+		for (let i = 0; i < rowMax * colMax; i++) { puppets.push(new FeaturedPuppet({ step: step - 30, index: i, rowMax, })); }
 
 		params.step = step;
-		params.rowMax = rowMax;
-		params.colMax = colMax;
 		params.tempMat01 = matrix44CreateIdentity();
 		params.tempMat02 = matrix44CreateIdentity();
-		params.tempMat03 = matrix44CreateIdentity();
 		params.ballDrawer = new BallDrawer();
 		params.ballObjects = [].concat(puppets);
-		params.puppets = puppets;
 
 		// ----------------------------------------------------------------
 	}, params => {
@@ -2280,21 +2297,7 @@ document.addEventListener("DOMContentLoaded", event => {
 		matrix44CreateIdentity(params.tempMat02);
 
 		// draw ball prep ボール要素の描画準備
-		//for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawPrep(params.tempMat01, params.tempMat02); }
-		for (let i = 0; i < params.puppets.length; i++) {
-			const row = Math.floor(i % params.rowMax);
-			const col = Math.floor(i / params.rowMax);
-			const isHide = col % 2 === 1 && row === params.rowMax - 1;
-			const x = isHide ? 20 : (20 + 70 * row + (col % 2 === 0 ? 0 : 35));
-			const y = isHide ? 310 : (310 - 60 * col);
-			const z = isHide ? -1 : 1;
-			matrix44CreateCopy(params.tempMat03, params.tempMat02);
-			matrix44MultiplyTranslate(params.tempMat03, x, y + 30, z);
-			matrix44MultiplyRotationX(params.tempMat03, 10 * Math.PI / 180);
-			matrix44MultiplyRotationY(params.tempMat03, 30 * Math.PI / 180);
-			matrix44MultiplyTranslate(params.tempMat03, 0, -30, 0);
-			params.puppets[i].drawPrep(params.tempMat01, params.tempMat03);
-		}
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawPrep(params.tempMat01, params.tempMat02); }
 
 		// sort ball ボールの並べ替え
 		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawSort(); }

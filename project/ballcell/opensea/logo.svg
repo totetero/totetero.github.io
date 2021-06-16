@@ -830,6 +830,29 @@ class Puppet extends BallObject {
 	}
 }
 
+// logoPuppet ロゴ用パペット型ボール管理クラス
+class LogoPuppet extends Puppet {
+	constructor(options) {
+		super(options);
+
+		this.prepX = 150;
+		this.prepY = 60;
+		this.prepZ = 0;
+		this.tempMat03 = matrix44CreateIdentity();
+		this.rotate = 0 * Math.PI / 180;
+		this.scale = 80;
+	}
+
+	drawPrep(matrixProjection, matrixWorld) {
+		matrix44CreateCopy(this.tempMat03, matrixWorld);
+		matrix44MultiplyTranslate(this.tempMat03, this.prepX, this.prepY + 30, this.prepZ);
+		matrix44MultiplyRotationX(this.tempMat03, 0 * Math.PI / 180);
+		matrix44MultiplyRotationY(this.tempMat03, 180 * Math.PI / 180);
+		matrix44MultiplyTranslate(this.tempMat03, 0, -30, 0);
+		super.drawPrep(matrixProjection, this.tempMat03);
+	}
+}
+
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -856,21 +879,13 @@ document.addEventListener("DOMContentLoaded", event => {
 
 		// init ball puppets パペットの初期化
 		const puppets = [];
-		for (let i = 0; i <1; i++) {
-			let color = "red";
-			const puppet = new Puppet({ step, color, });
-			puppet.rotate = 0 * Math.PI / 180;
-			puppet.scale = 80;
-			puppets.push(puppet);
-		}
+		puppets.push(new LogoPuppet({ step: step - 30, }));
 
 		params.step = step;
 		params.tempMat01 = matrix44CreateIdentity();
 		params.tempMat02 = matrix44CreateIdentity();
-		params.tempMat03 = matrix44CreateIdentity();
 		params.ballDrawer = new BallDrawer();
 		params.ballObjects = [].concat(puppets);
-		params.puppets = puppets;
 
 		// ----------------------------------------------------------------
 	}, params => {
@@ -894,17 +909,7 @@ document.addEventListener("DOMContentLoaded", event => {
 		matrix44CreateIdentity(params.tempMat02);
 
 		// draw ball prep ボール要素の描画準備
-		//for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawPrep(params.tempMat01, params.tempMat02); }
-		for (let i = 0; i < params.puppets.length; i++) {
-			const x = 150;
-			const y = 60;
-			matrix44CreateCopy(params.tempMat03, params.tempMat02);
-			matrix44MultiplyTranslate(params.tempMat03, x, y + 30, 0);
-			matrix44MultiplyRotationX(params.tempMat03, 0 * Math.PI / 180);
-			matrix44MultiplyRotationY(params.tempMat03, 180 * Math.PI / 180);
-			matrix44MultiplyTranslate(params.tempMat03, 0, -30, 0);
-			params.puppets[i].drawPrep(params.tempMat01, params.tempMat03);
-		}
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawPrep(params.tempMat01, params.tempMat02); }
 
 		// sort ball ボールの並べ替え
 		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawSort(); }

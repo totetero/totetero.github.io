@@ -561,6 +561,43 @@ const matrix44TypicalLookAt = (mat, eyeX, eyeY, eyeZ) => {
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 
+// ballDrawer ボール描画クラス
+class BallDrawer {
+	constructor() {
+		this.index = 0;
+		this.elementList = [];
+		const elementListRaw = document.getElementById("partsList").getElementsByTagName("circle");
+		for (let i = 0; i < elementListRaw.length; i++) { this.elementList.push(elementListRaw.item(i)); }
+	}
+
+	reset() {
+		this.index = 0;
+	}
+
+	set(ball, isBlack) {
+		if (isBlack && ball.part.isOuter === false) { return; }
+		if (this.index >= this.elementList.length) {
+			for (let i = this.elementList.length; i <= this.index; i++) {
+				const element = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+				document.getElementById("partsList").appendChild(element);
+				this.elementList.push(element);
+			}
+		}
+		const element = this.elementList[this.index++];
+		element.setAttribute("cx", Math.round(ball.canvas.x));
+		element.setAttribute("cy", Math.round(ball.canvas.y));
+		element.setAttribute("r", Math.round(ball.canvas.r + (isBlack ? 4 : 0)));
+		element.setAttribute("fill", isBlack ? "black" : ball.part.color);
+	}
+
+	hide() {
+		for (let i = this.index; i < this.elementList.length; i++) {
+			const element = this.elementList[i];
+			element.setAttribute("r", 0);
+		}
+	}
+}
+
 // ballObject ボール管理クラス
 class BallObject {
 	constructor() {
@@ -635,9 +672,9 @@ class BallObject {
 	}
 
 	// draw ball svg要素に値を流し込む
-	drawBall(elementCircleSet) {
-		for (let i = 0; i < this.balls.length; i++) { elementCircleSet(this.balls[i], true); }
-		for (let i = 0; i < this.balls.length; i++) { elementCircleSet(this.balls[i], false); }
+	drawBall(ballDrawer) {
+		for (let i = 0; i < this.balls.length; i++) { ballDrawer.set(this.balls[i], true); }
+		for (let i = 0; i < this.balls.length; i++) { ballDrawer.set(this.balls[i], false); }
 	}
 }
 
@@ -897,39 +934,6 @@ document.addEventListener("DOMContentLoaded", event => {
 
 		const step = 0;
 
-		// create management svg elements svg要素の管理オブジェクト作成
-		const managementElement = (() => {
-			const elementList = [];
-			const elementListRaw = document.getElementById("partsList").getElementsByTagName("circle");
-			for (let i = 0; i < elementListRaw.length; i++) { elementList.push(elementListRaw.item(i)); }
-
-			let index = 0;
-			return {
-				reset: () => { index = 0; },
-				set: (ball, isBlack) => {
-					if (isBlack && ball.part.isOuter === false) { return; }
-					if (index >= elementList.length) {
-						for (let i = elementList.length; i <= index; i++) {
-							const element = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-							document.getElementById("partsList").appendChild(element);
-							elementList.push(element);
-						}
-					}
-					const element = elementList[index++];
-					element.setAttribute("cx", Math.round(ball.canvas.x));
-					element.setAttribute("cy", Math.round(ball.canvas.y));
-					element.setAttribute("r", Math.round(ball.canvas.r + (isBlack ? 4 : 0)));
-					element.setAttribute("fill", isBlack ? "black" : ball.part.color);
-				},
-				hide: () => {
-					for (let i = index; i < elementList.length; i++) {
-						const element = elementList[i];
-						element.setAttribute("r", 0);
-					}
-				},
-			};
-		})();
-
 		// init ball puppets パペットの描画
 		const puppets = [];
 
@@ -964,8 +968,7 @@ document.addEventListener("DOMContentLoaded", event => {
 		params.step = step;
 		params.tempMat01 = matrix44CreateIdentity();
 		params.tempMat02 = matrix44CreateIdentity();
-		params.tempMat03 = matrix44CreateIdentity();
-		params.managementElement = managementElement;
+		params.ballDrawer = new BallDrawer();
 		params.ballObjects = [].concat(puppets);
 
 		// ----------------------------------------------------------------
@@ -997,9 +1000,9 @@ document.addEventListener("DOMContentLoaded", event => {
 		params.ballObjects.sort((ballObject1, ballObject2) => ballObject2.zIndex - ballObject1.zIndex);
 
 		// draw ball ボールの描画
-		params.managementElement.reset();
-		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawBall(params.managementElement.set); }
-		params.managementElement.hide();
+		params.ballDrawer.reset();
+		for (let i = 0; i < params.ballObjects.length; i++) { params.ballObjects[i].drawBall(params.ballDrawer); }
+		params.ballDrawer.hide();
 
 		// ----------------------------------------------------------------
 	});
